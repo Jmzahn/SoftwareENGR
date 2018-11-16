@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseInterface {
+public static class DatabaseInterface {
     public static void updateInv(Item newItem){
         Database database = new Database();
         List<Item> inventory = database.getInventoryList();
