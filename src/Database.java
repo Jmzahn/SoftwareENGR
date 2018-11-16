@@ -35,7 +35,13 @@ public class Database {
             line = null;
             reader.close();
         }
-        return list;
+        catch (FileNotFoundException e){
+            File file = new File(fileName);
+            file.createNewFile();
+        }
+        finally {
+            return list;
+        }
     }
 
     // write changes to CSV file
@@ -51,6 +57,11 @@ public class Database {
                 out.writeLine(line);
             }
             out.close();
+        }
+        catch (FileNotFoundException e){
+            File file = new File(fileName);
+            file.createNewFile();
+            commit(list, fileName);
         }
     }
 
