@@ -1,4 +1,4 @@
-public class Account implements Parsable
+public class Account implements Parsable<Account>
 {
     String cardNo, cardType, authNo, pin;
     double balance;

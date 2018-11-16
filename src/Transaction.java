@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Transaction implements Parsable
+public class Transaction implements Parsable<Transaction>
 {
     double total;
     List<Item> cart;

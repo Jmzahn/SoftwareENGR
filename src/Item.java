@@ -1,4 +1,4 @@
-public class Item implements Parsable
+public class Item implements Parsable<Item>
 {
     String name, description;
     double price, discount;
