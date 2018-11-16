@@ -9,6 +9,7 @@ public class DatabaseInterface {
         boolean found = false;
         while(!found && i < inventory.size()){
             found = inventory.get(i).name.equals(newItem.name));
+            i++;
         }
         if(found) {
             inventory.set(i, newItem);
