@@ -35,6 +35,12 @@ public class Database {
             line = null;
             reader.close();
         }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
         finally {
             return list;
         }
@@ -63,6 +69,9 @@ public class Database {
                 file.createNewFile();
                 commit(list, fileName, false);
             }
+        }
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
 
