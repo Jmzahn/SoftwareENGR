@@ -35,10 +35,6 @@ public class Database {
             line = null;
             reader.close();
         }
-        catch (FileNotFoundException e){
-            File file = new File(fileName);
-            file.createNewFile();
-        }
         finally {
             return list;
         }
@@ -46,6 +42,9 @@ public class Database {
 
     // write changes to CSV file
     private <T extends Parsable> void commit(List<T> list, String fileName){
+        commit(list, fileName, true);
+    }
+    private <T extends Parsable> void commit(List<T> list, String fileName, boolean tryAgain){
         try{
             BufferedWriter out = new BufferedWriter(new FileWriter(filename));
             for(T item : list){
@@ -59,9 +58,11 @@ public class Database {
             out.close();
         }
         catch (FileNotFoundException e){
-            File file = new File(fileName);
-            file.createNewFile();
-            commit(list, fileName);
+            if(tryAgain){
+                File file = new File(fileName);
+                file.createNewFile();
+                commit(list, fileName, false);
+            }
         }
     }
 
