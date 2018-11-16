@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
     private List<Item> inventoryList;
@@ -41,10 +43,10 @@ public class Database {
         try{
             BufferedWriter out = new BufferedWriter(new FileWriter(filename));
             for(T item : list){
-                String line = "";
                 var arr = item.toArray();
-                for(int i = 0; i < arr.length; i++){
-                    line = line + arr[i];
+                String line = arr[0];
+                for(int i = 1; i < arr.length; i++){
+                    line = line + "," + arr[i];
                 }
                 out.writeLine(line);
             }
