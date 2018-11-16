@@ -8,7 +8,7 @@ public class DatabaseInterface {
         int i = 0;
         boolean found = false;
         while(!found && i < inventory.size()){
-            found = inventory.get(i).name.equals(newItem.name));
+            found = inventory.get(i).name.toUpperCase().equals(newItem.name.toUpperCase()));
             i++;
         }
         if(found) {
