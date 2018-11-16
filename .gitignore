@@ -93,3 +93,8 @@ fabric.properties
 .history
 
 # End of https://www.gitignore.io/api/intellij,visualstudiocode
+
+.idea/SoftwareENGR.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
