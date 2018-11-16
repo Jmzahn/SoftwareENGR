@@ -65,7 +65,7 @@ public class Database {
         }
     }
 
-    public Item[] getInventoryList(){
+    public List<Item> getInventoryList(){
         return this.inventoryList;
     }
 
@@ -74,7 +74,7 @@ public class Database {
         commit(this.inventoryList, this._inventoryListFilename);
     }
 
-    public Transaction[] getTransactionLogList(){
+    public List<Transaction> getTransactionLogList(){
         return this.transactionLogList;
     }
 
@@ -83,7 +83,7 @@ public class Database {
         commit(this.transactionLogList, this._transactionLogListFilename);
     }
 
-    public Account[] getAccountList(){
+    public List<Account> getAccountList(){
         return this.accountList;
     }
 
