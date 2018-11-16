@@ -69,7 +69,7 @@ public class Database {
         return this.inventoryList;
     }
 
-    public void setInventoryList(Item[] items){
+    public void setInventoryList(List<Item> items){
         this.inventoryList = items;
         commit(this.inventoryList, this._inventoryListFilename);
     }
@@ -78,7 +78,7 @@ public class Database {
         return this.transactionLogList;
     }
 
-    public void setTransactionLogList(Transaction[] transactions){
+    public void setTransactionLogList(List<Transaction> transactions){
         this.transactionLogList = transactions;
         commit(this.transactionLogList, this._transactionLogListFilename);
     }
@@ -87,7 +87,7 @@ public class Database {
         return this.accountList;
     }
 
-    public void setAccountList(Account[] accounts){
+    public void setAccountList(List<Account> accounts){
         this.accountList = accounts;
         commit(this.accountList, this._accountListFilename);
     }
