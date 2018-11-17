@@ -3,8 +3,12 @@
 public class DatabaseInterface {
     private static Database database = new Database();
 
-    public static Database getDatabase(){
+    static Database getDatabase(){
         return database;
+    }
+
+    static void setDatabase(Database d){
+        database=d;
     }
 
 

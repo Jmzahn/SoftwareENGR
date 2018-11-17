@@ -1,10 +1,9 @@
-import java.lang.System;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class EmployeeInterface
+public class EmployeeInterface//I added a static Database to DatabaseInterface that you can pull via get method, and push via set
 {
+    //Database database = DatabaseInterface.getDatabase();
     public static void updateItem(){
         Scanner kb = new Scanner(System.in);
         Database database = new Database();

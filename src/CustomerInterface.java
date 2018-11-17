@@ -1,10 +1,13 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CustomerInterface
+public class CustomerInterface////I added a static Database to DatabaseInterface that you can pull via get method, and push via set
 {
     //Im guessing this will be implemented by interaction with the console,
     // as will all IO i.e. Bank Interface, Employee Interface -JZ
+
+    Database database;
+
     static Transaction transaction;
     static double subTotal,total;
     static void welcome(){

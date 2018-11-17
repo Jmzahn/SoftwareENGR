@@ -4,15 +4,18 @@ public class BusinessLogic {//TODO
     static void timerSignal(){
         prepareReports();
         printReports();
+        daily=null;
+        inventory=null;
     }
 
-    static void prepareReports(){
+    private static void prepareReports(){
         daily = DatabaseInterface.prepareDailyReport();
         inventory = DatabaseInterface.prepareInventoryReport();
     }
 
-    static void printReports(){
-        //TODO
+    private static void printReports(){
+        PrinterInterface.printReport(daily);
+        PrinterInterface.printReport(inventory);
     }
     static double computeTax(double preTax) {
         return preTax * 1.0825;
