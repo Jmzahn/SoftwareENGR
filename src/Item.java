@@ -1,4 +1,4 @@
-public class Item implements Parsable<Item>
+public class Item extends Parsable<Item>
 {
     String name, description;
     double price, discount;
@@ -15,28 +15,26 @@ public class Item implements Parsable<Item>
         this.invMinimum = invMinimum;
     }
 
-    public static Item parse(String[] fields){
-        if(fields.length != 7) throw new IllegalArgumentException("Item.parse() requires String[] with length of 7");
-        return new Item(
-            fields[0],
-            fields[1],
-            Double.parse(fields[2]),
-            Double.parse(fields[3]),
-            Integer.parse(fields[4]),
-            Boolean.parse(fields[5]),
-            Integer.parse(fields[6])
-        );
+    public Item(String[] fields){
+        if(fields.length != 7) throw new IllegalArgumentException("Item requires String[] with length of 7");
+        this.name = fields[0];
+        this.description = fields[1];
+        this.price = Double.parseDouble(fields[2]);
+        this.discount = Double.parseDouble(fields[3]);
+        this.quantity = Integer.parseInt(fields[4]);
+        this.isBooze = Boolean.parseBoolean(fields[5]);
+        this.invMinimum = Integer.parseInt(fields[6]);
     }
 
     public String[] toArray(){
-        return [
-            this.name, 
-            this.description, 
-            this.price.toString(), 
-            this.discount.toString(), 
-            this.quantity.toString(), 
-            this.isBooze.toString(),
-            this.invMinimum.toString()
-        ];
+        return new String[]{
+            this.name,
+            this.description,
+            Double.toString(this.price),
+            Double.toString(this.discount),
+            Integer.toString(this.quantity),
+            Boolean.toString(this.isBooze),
+            Integer.toString(this.invMinimum)
+        };
     }
 }

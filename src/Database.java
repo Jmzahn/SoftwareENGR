@@ -1,7 +1,12 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.NoSuchMethodException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +14,7 @@ public class Database {
     private List<Item> inventoryList;
     private List<Transaction> transactionLogList;
     private List<Account> accountList;
-    
+
     private String _inventoryListFilename = "./Database/InventoryList.csv";
     private String _transactionLogListFilename = "./Database/TransactionLogList.csv";
     private String _accountListFilename = "./Database/AccountList.csv";
@@ -20,20 +25,24 @@ public class Database {
         this.accountList = readFromFile(Account.class, this._accountListFilename);
     }
 
-    private <T extends Parsable> List<T> readFromFile(Class<T> class, String fileName){
+    private <T extends Parsable> List<T> readFromFile(Class<T> klass, String fileName){
         List<T> list = new ArrayList<>();
         try {
+            Constructor<T> ctor = klass.getConstructor(String[].class);
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             String line = reader.readLine();
             while (line != null) {
-                String[] fields = line.split(',');
+                String[] fields = line.split(",");
                 if(fields.length > 0){
-                    list.add(class.parse(fields));
+                    list.add(ctor.newInstance(fields));
                 }
                 line = reader.readLine();
             }
             line = null;
             reader.close();
+        }
+        catch (NoSuchMethodException e){
+            e.printStackTrace();
         }
         catch (FileNotFoundException e){
             e.printStackTrace();
@@ -52,22 +61,28 @@ public class Database {
     }
     private <T extends Parsable> void commit(List<T> list, String fileName, boolean tryAgain){
         try{
-            BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+            BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
             for(T item : list){
-                var arr = item.toArray();
+                String[] arr = item.toArray();
                 String line = arr[0];
                 for(int i = 1; i < arr.length; i++){
                     line = line + "," + arr[i];
                 }
-                out.writeLine(line);
+                line = line + "\n";
+                out.write(line);
             }
             out.close();
         }
         catch (FileNotFoundException e){
             if(tryAgain){
-                File file = new File(fileName);
-                file.createNewFile();
-                commit(list, fileName, false);
+                try {
+                    File file = new File(fileName);
+                    file.createNewFile();
+                    commit(list, fileName, false);
+                }
+                catch (IOException x){
+                    x.printStackTrace();
+                }
             }
         }
         catch (IOException e){

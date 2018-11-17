@@ -1,4 +1,4 @@
-public class Account implements Parsable<Account>
+public class Account extends Parsable<Account>
 {
     String cardNo, cardType, authNo, pin;
     double balance;
@@ -11,24 +11,22 @@ public class Account implements Parsable<Account>
         this.pin = pin;
     }
 
-    public static Account parse(String[] fields){
-        if(fields.length != 5) throw new IllegalArgumentException("Account.parse() requires String[] with length of 5");
-        return new Account(
-            fields[0],
-            Double.parse(fields[1]),
-            fields[2],
-            fields[3],
-            fields[4]
-        );
+    public Account(String[] fields){
+        if(fields.length != 5) throw new IllegalArgumentException("Account requires String[] with length of 5");
+        this.cardNo = fields[0];
+        this.balance = Double.parseDouble(fields[1]);
+        this.cardType = fields[2];
+        this.authNo = fields[3];
+        this.pin = fields[4];
     }
 
     public String[] toArray(){
-       return [
+       return new String[]{
            this.cardNo,
-           this.balance.toString(),
+           Double.toString(this.balance),
            this.cardType,
            this.authNo,
            this.pin
-       ];
+       };
     }
 }
