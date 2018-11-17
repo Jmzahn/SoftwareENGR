@@ -1,2 +1,2 @@
-public class PrinterInterface {
+public class PrinterInterface {//TODO
 }

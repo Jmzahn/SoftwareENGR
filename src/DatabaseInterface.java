@@ -1,14 +1,13 @@
-import java.util.ArrayList;
 import java.util.List;
 
-public static class DatabaseInterface {
+public class DatabaseInterface {
     public static void updateInv(Item newItem){
         Database database = new Database();
         List<Item> inventory = database.getInventoryList();
         int i = 0;
         boolean found = false;
         while(!found && i < inventory.size()){
-            found = inventory.get(i).name.toUpperCase().equals(newItem.name.toUpperCase()));
+            found = inventory.get(i).name.toUpperCase().equals(newItem.name.toUpperCase());
             i++;
         }
         if(found) {
