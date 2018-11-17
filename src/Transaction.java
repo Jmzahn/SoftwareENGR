@@ -1,11 +1,17 @@
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Transaction extends Parsable<Transaction>
 {
     double total;
     List<Item> cart;
+
+    Transaction(){
+        total=0;
+        cart=null;
+    }
 
     public Transaction(double total, List<Item> cart){
         this.total = total;
@@ -23,6 +29,11 @@ public class Transaction extends Parsable<Transaction>
         this.cart = list;
     }
 
+    void addItem(Item item) {
+        cart.add(item);
+        total+=item.price*item.discount;
+    }
+
     public String[] toArray(){
         String[] arr = new String[this.cart.size() * 7 + 1];
         arr[0] = Double.toString(this.total);
@@ -30,9 +41,7 @@ public class Transaction extends Parsable<Transaction>
         List<String> list = new ArrayList<>();
         for(Item item : this.cart){
             String[] itemArr = item.toArray();
-            for(int i = 0; i < itemArr.length; i++){
-                list.add(itemArr[i]);
-            }
+            Collections.addAll(list,itemArr);
         }
 
         for(int i = 1; i < arr.length; i += 7){
