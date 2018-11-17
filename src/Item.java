@@ -5,6 +5,10 @@ public class Item extends Parsable<Item>
     int quantity, invMinimum;
     boolean isBooze;
 
+    public Item(){
+
+    }
+
     public Item(String name, String description, double price, double discount, int quantity, boolean isBooze, int invMinimum){
         this.name = name;
         this.description = description;
@@ -36,5 +40,18 @@ public class Item extends Parsable<Item>
             Boolean.toString(this.isBooze),
             Integer.toString(this.invMinimum)
         };
+    }
+
+    @Override
+    public String toString() { 
+        String[] fields = this.toArray();
+        return
+            "{Name: " + fields[0] +
+            ", Description: " + fields[1] + 
+            ", Price: " + fields[2] +
+            ", Discount: " + Double.toString(this.discount * 100) + "%" +
+            ", Quantity: " + fields[4] +
+            ", Is alcohol: " + fields[5] +
+            ", Inventory minimum: " + fields[6] + "}";
     }
 }
