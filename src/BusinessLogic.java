@@ -1,12 +1,14 @@
 public class BusinessLogic {//TODO
-
+    private static Report daily = new Report(ReportType.DAILY);
+    private static Report inventory = new Report(ReportType.INVENTORY);
     static void timerSignal(){
         prepareReports();
         printReports();
     }
 
     static void prepareReports(){
-        //TODO
+        daily = DatabaseInterface.prepareDailyReport();
+        inventory = DatabaseInterface.prepareInventoryReport();
     }
 
     static void printReports(){

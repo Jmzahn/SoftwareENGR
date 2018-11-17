@@ -5,7 +5,7 @@ class TimerInterface
         long elapsedTime=System.currentTimeMillis()-startTime;
         long elapsedSeconds = elapsedTime / 1000;
         long elapsedMinutes = elapsedSeconds / 60;
-        if(elapsedMinutes>5)//Setting "midnight" as 5 minutes
+        if(elapsedMinutes>5)//Setting "midnight" as every 5 minutes
         {
             BusinessLogic.timerSignal();
         }

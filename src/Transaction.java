@@ -5,12 +5,12 @@ import java.util.List;
 
 public class Transaction extends Parsable<Transaction>
 {
-    double total;
-    List<Item> cart;
+    private double total;
+    private List<Item> cart;
 
     Transaction(){
-        total=0;
-        cart=null;
+        this.total=0;
+        this.cart=null;
     }
 
     public Transaction(double total, List<Item> cart){
@@ -30,8 +30,16 @@ public class Transaction extends Parsable<Transaction>
     }
 
     void addItem(Item item) {
-        cart.add(item);
-        total+=item.price*item.discount;
+        this.cart.add(item);
+        this.total+=item.price*item.discount;
+    }
+
+    List<Item> getCart(){
+        return this.cart;
+    }
+
+    double getTotal(){
+        return this.total;
     }
 
     public String[] toArray(){

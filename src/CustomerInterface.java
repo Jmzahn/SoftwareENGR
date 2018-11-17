@@ -12,7 +12,7 @@ public class CustomerInterface
     }
     static void startCheckout(){
         transaction=new Transaction();
-        subTotal=transaction.total;//sets to default==0.0
+        subTotal=transaction.getTotal();//sets to default==0.0
     }
     static void scan(){//use Transaction.add(Item i) to add these items to transaction, make sure to update subtotal
 

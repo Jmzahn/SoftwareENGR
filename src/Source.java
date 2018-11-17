@@ -14,8 +14,8 @@ public class Source
 
 
     }
-    public void checkTime(){
-        final Runnable checkIfMidnight = TimerInterface::calcTime;
+    public void startTimer(){
+        final Runnable checkIfMidnight = TimerInterface::calcTime;//makes a Runnable that references TimerInterface's calcTime
         final ScheduledFuture<?> timerHandle =
                 scheduler.scheduleAtFixedRate(checkIfMidnight, 1,30, TimeUnit.SECONDS);//this runs the timer thread every 30 seconds
         scheduler.schedule(() -> {

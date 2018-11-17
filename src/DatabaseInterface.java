@@ -19,8 +19,16 @@ public class DatabaseInterface {
         database.setInventoryList(inventory);
     }
 
-    public static void printReport(){
-        //TODO
+    public static Report prepareDailyReport(){
+        Report d = new Report(ReportType.DAILY);
+
+        return d;
+    }
+
+    public static Report prepareInventoryReport(){
+        Report i = new Report(ReportType.INVENTORY);
+
+        return i;
     }
 
     public static void printReceipt(Transaction transaction, Account account){
