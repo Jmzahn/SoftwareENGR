@@ -41,7 +41,7 @@ public class Transaction extends Parsable<Transaction>
         List<String> list = new ArrayList<>();
         for(Item item : this.cart){
             String[] itemArr = item.toArray();
-            Collections.addAll(list,itemArr);
+            Collections.addAll(list,itemArr);//I replaced a for loop -JZ
         }
 
         for(int i = 1; i < arr.length; i += 7){
