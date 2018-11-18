@@ -2,21 +2,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BusinessLogic {//TODO
-    private static Report daily = new Report(ReportType.DAILY);
-    private static Report inventory = new Report(ReportType.INVENTORY);
-    static void timerSignal(){
+    private static Report daily;
+    private static Report inventory;
+
+    static void timerSignal(){//called by TimerInterface
         prepareReports();
         printReports();
-        daily=null;
+        daily=null;//sets reports to null after done
         inventory=null;
     }
 
-    private static void prepareReports(){
+    private static void prepareReports(){//called by timerSignal, populates reports
         daily = DatabaseInterface.prepareDailyReport();
         inventory = DatabaseInterface.prepareInventoryReport();
     }
 
-    private static void printReports(){
+    private static void printReports(){//called by timerSignal, prints reports
         PrinterInterface.printReport(daily);
         PrinterInterface.printReport(inventory);
     }
@@ -35,6 +36,7 @@ public class BusinessLogic {//TODO
             line = String.format(format,item.name,item.price);
             lines.add(line);
         }
+        r.addLines(lines);
         if(account==null)
         {
             r.makeFooter();

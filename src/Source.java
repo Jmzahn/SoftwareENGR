@@ -5,16 +5,17 @@ import java.util.concurrent.TimeUnit;
 
 public class Source
 {
-    private final ScheduledExecutorService scheduler =
+    //timer actor exists on a separate thread from main
+    private static final ScheduledExecutorService scheduler =
         Executors.newScheduledThreadPool(1);
     public static void main(String[] args)
     {
-
+        startTimer();//first thing we do is start the timer actor
 
 
 
     }
-    public void startTimer(){
+    public static void startTimer(){
         final Runnable checkIfMidnight = TimerInterface::calcTime;//makes a Runnable that references TimerInterface's calcTime
         final ScheduledFuture<?> timerHandle =
                 scheduler.scheduleAtFixedRate(checkIfMidnight, 1,30, TimeUnit.SECONDS);//this runs the timer thread every 30 seconds

@@ -33,49 +33,50 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
 
     static void payCash()
     {
-        double insertedCash=0.0;
+        double insertedCash=0.0;//since we just got here they haven't put cash in yet
 
         //This while loop prompts for cash and handles some errors
         boolean passed=false;
+        Scanner cashIn=new Scanner(System.in);
         while (!passed)
         {
-            System.out.println("Insert cash into bill or coin readers (double) : ");
-            Scanner cashIn=new Scanner(System.in);
-            try{
+            System.out.println("Insert cash into bill or coin readers (double) : ");//prompt for cash
+
+            try{//try and grab double
                 insertedCash=cashIn.nextDouble();
+                if(insertedCash%.01==0)//check precision
+                    passed=true;
+                else
+                    System.err.println("Inserted cash cannot be a value with more than two floating values. Retry.");//yell at customer
+
             }catch (InputMismatchException e)
             {
                 e.printStackTrace();
-                System.err.println("Must give double.");
+                System.err.println("Must give double.");//yell at customer
             }
-
-            if(insertedCash%.01==0)
-                passed=true;
-            else
-                System.err.println("Inserted cash cannot be a value with more than two floating values. Retry.");
-
         }
 
-        if(insertedCash<total)
+        if(insertedCash<total)//cancel order if insufficient payment
             cancel(1);
-        else
+        else//otherwise complete it
         {
             double dif=insertedCash-total;//calculate change
             if(dif!=0)//if we need to dispense change do so
             {
                 System.out.println("Dispensing Change...  "+dif+"\nTransaction complete!\nPrinting receipt.");
-                Report receipt = BusinessLogic.prepareReceipt(transaction,null);
+                Report receipt = BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
 
                 PrinterInterface.printReport(receipt);
             }
             else//otherwise just print the receipt
             {
                 System.out.println("\nTransaction complete!\nPrinting receipt.");
-                Report receipt = BusinessLogic.prepareReceipt(transaction,null);
+                Report receipt = BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
 
                 PrinterInterface.printReport(receipt);
             }
-        }
+        }//not sure where to go from here, im guessing welcome page for next customer
+        welcome();
     }
     static void cancel(int t)//t==0 for cancel payment, t==1 for cancel order
     {

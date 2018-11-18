@@ -37,13 +37,13 @@ public class Report {
         }
         if(this.type==ReportType.INVENTORY)
         {
-            this.leftAlignFormat = "│ %-23s│";
+            this.leftAlignFormat = "│ %-15s │ %-4d │";
 
             this.lines.add("┌────────────────────────────┐");
             this.lines.add("│ Inventory Report       │");
-            this.lines.add("├────────────────────────────┤");
-            this.lines.add("│ Product                │");
-            this.lines.add("├────────────────────────────┤");
+            this.lines.add("├────────────────────┬───────┤");
+            this.lines.add("│ Product         │ #    │");
+            this.lines.add("├────────────────────┼───────┤");
         }
         if(this.type==ReportType.RECEIPT)
         {
@@ -60,11 +60,11 @@ public class Report {
     void makeFooter(){
         if(this.type==ReportType.DAILY)
         {
+            this.lines.add("├────────────────────────────┤");
             this.lines.add("│ End of Daily Report    │");
         }
         if(this.type==ReportType.INVENTORY)
         {
-            this.lines.add("├────────────────────────────┤");
             this.lines.add("│ End of Inventory Report│");
         }
         if(this.type==ReportType.RECEIPT)
