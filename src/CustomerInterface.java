@@ -64,14 +64,14 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             if(dif!=0)//if we need to dispense change do so
             {
                 System.out.println("Dispensing Change...  "+dif+"\nTransaction complete!\nPrinting receipt.");
-                Report receipt = DatabaseInterface.prepareReceipt(transaction,null);
+                Report receipt = BusinessLogic.prepareReceipt(transaction,null);
 
                 PrinterInterface.printReport(receipt);
             }
             else//otherwise just print the receipt
             {
                 System.out.println("\nTransaction complete!\nPrinting receipt.");
-                Report receipt = DatabaseInterface.prepareReceipt(transaction,null);
+                Report receipt = BusinessLogic.prepareReceipt(transaction,null);
 
                 PrinterInterface.printReport(receipt);
             }
