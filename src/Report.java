@@ -10,7 +10,7 @@ public class Report {
     private ReportType type;
     private String leftAlignFormat;
 
-    public Report(ReportType t){
+    Report(ReportType t){
         this.type=t;
         this.lines=new ArrayList<>();
         this.leftAlignFormat="";
@@ -20,52 +20,71 @@ public class Report {
         return this.type;
     }
 
-    public String getFormat(){
+    String getFormat(){
         return this.leftAlignFormat;
     }
 
-    public void makeHeader(){
+    void makeHeader(){
         if(this.type==ReportType.DAILY)
         {
-            this.leftAlignFormat = "| %-15s | %-4d |%n";
+            this.leftAlignFormat = "│ %-15s │ %-4d │";
 
-            this.lines.add("+-----------------+------+%n");
-            this.lines.add("| Daily Report           |%n");
-            this.lines.add("+-----------------+------+%n");
-            this.lines.add("| Product         | #sold|%n");
-            this.lines.add("+-----------------+------+%n");
+            this.lines.add("┌────────────────────────────┐");
+            this.lines.add("│ Daily Report           │");
+            this.lines.add("├────────────────────┬───────┤");
+            this.lines.add("│ Product         │ #    │");
+            this.lines.add("├────────────────────┼───────┤");
         }
         if(this.type==ReportType.INVENTORY)
         {
-            this.leftAlignFormat = "| %-23s|%n";
+            this.leftAlignFormat = "│ %-23s│";
 
-            lines.add("+-----------------+------+%n");
-            lines.add("| Inventory Report       |%n");
-            lines.add("+-----------------+------+%n");
-            lines.add("| Product                |%n");
-            lines.add("+-----------------+------+%n");
+            this.lines.add("┌────────────────────────────┐");
+            this.lines.add("│ Inventory Report       │");
+            this.lines.add("├────────────────────────────┤");
+            this.lines.add("│ Product                │");
+            this.lines.add("├────────────────────────────┤");
         }
         if(this.type==ReportType.RECEIPT)
         {
-            this.leftAlignFormat = "| %-15s | %-4d |%n";
+            this.leftAlignFormat = "│ %-13s │ %-6f │";
 
-            lines.add("+-----------------+------+%n");
-            lines.add("| Receipt                |%n");
-            lines.add("+-----------------+------+%n");
-            lines.add("| Product         | $    |%n");
-            lines.add("+-----------------+------+%n");
+            this.lines.add("┌────────────────────────────┐");
+            this.lines.add("│ Receipt                │");
+            this.lines.add("├──────────────────┬─────────┤");
+            this.lines.add("│ Product       │ $      │");
+            this.lines.add("├──────────────────┼─────────┤");
         }
     }
 
-    public void addLine(String s){
+    void makeFooter(){
+        if(this.type==ReportType.DAILY)
+        {
+            this.lines.add("│ End of Daily Report    │");
+        }
+        if(this.type==ReportType.INVENTORY)
+        {
+            this.lines.add("├────────────────────────────┤");
+            this.lines.add("│ End of Inventory Report│");
+        }
+        if(this.type==ReportType.RECEIPT)
+        {
+            this.lines.add("│ X:____________________ │");
+            this.lines.add("├────────────────────────────┤");
+            this.lines.add("│ End of Receipt         │");
+        }
+        this.lines.add("└────────────────────────────┘");
+    }
+
+    void addLine(String s){
         this.lines.add(s);
     }
 
-    public void addLines(Collection<String> lns){
+    void addLines(Collection<String> lns){
         this.lines.addAll(lns);
     }
 
-    public ArrayList<String> getLines()
+    ArrayList<String> getLines()
     {
         return this.lines;
     }
