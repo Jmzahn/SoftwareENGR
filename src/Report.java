@@ -20,7 +20,11 @@ public class Report {
         return this.type;
     }
 
-    public void setLines(){
+    public String getFormat(){
+        return this.leftAlignFormat;
+    }
+
+    public void makeHeader(){
         if(this.type==ReportType.DAILY)
         {
             this.leftAlignFormat = "| %-15s | %-4d |%n";
@@ -33,7 +37,7 @@ public class Report {
         }
         if(this.type==ReportType.INVENTORY)
         {
-            this.leftAlignFormat = "| %-15s | %-4d |%n";
+            this.leftAlignFormat = "| %-23s|%n";
 
             lines.add("+-----------------+------+%n");
             lines.add("| Inventory Report       |%n");

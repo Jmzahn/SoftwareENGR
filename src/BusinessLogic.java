@@ -17,6 +17,14 @@ public class BusinessLogic {//TODO
         PrinterInterface.printReport(daily);
         PrinterInterface.printReport(inventory);
     }
+
+
+    static Report prepareReceipt(Transaction transaction, Account account){//called by payCash and payCard
+        Report r = new Report(ReportType.RECEIPT);
+        r.makeHeader();
+        return r;
+    }
+
     static double computeTax(double preTax) {
         return preTax * 1.0825;
     }
