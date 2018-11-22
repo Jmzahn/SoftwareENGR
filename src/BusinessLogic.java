@@ -42,14 +42,14 @@ public class BusinessLogic {//TODO
             r.makeFooter();
             return r;
         }
-        line="├───────────────┬──┴─────────┤";
+        line="+---------------+--+---------+";
         r.addLine(line);
-        line="│ Last 4 CardNo │ AuthNo │";
+        line="| Last 4 CardNo | AuthNo |";
         r.addLine(line);
-        format="│ %-13s │ %-6s │";
+        format="| %-13s | %-6s |";
         line=String.format(format,account.cardNo.subSequence(12,15),account.authNo);
         r.addLine(line);
-        line="├───────────────┴────────────┤";
+        line="+---------------+------------+";
         r.addLine(line);
         r.makeFooter();
         return r;

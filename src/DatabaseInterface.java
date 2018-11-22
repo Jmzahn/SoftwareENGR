@@ -54,9 +54,9 @@ public class DatabaseInterface {
             line=String.format(format,products.get(x),amounts.get(x));
             lines.add(line);
         }
-        line="├────────────────────┴───────┤";
+        line="+--------------------+-------+";
         lines.add(line);
-        format="│ Total: %,011.2f │";
+        format="| Total: %,011.2f |";
         line=String.format(format,total);//adds formatted total onto lines
         lines.add(line);
         d.addLines(lines);//adds lines to the report
@@ -91,7 +91,7 @@ public class DatabaseInterface {
             line=String.format(format,products.get(x),amounts.get(x));
             lines.add(line);
         }
-        line="├────────────────────┴───────┤";
+        line="+--------------------+-------+";
         lines.add(line);
         i.addLines(lines);//adds line to report
         i.makeFooter();//finishes report

@@ -27,53 +27,53 @@ public class Report {
     void makeHeader(){
         if(this.type==ReportType.DAILY)
         {
-            this.leftAlignFormat = "│ %-15s │ %-4d │";
+            this.leftAlignFormat = "| %-15s | %-4d |";
 
-            this.lines.add("┌────────────────────────────┐");
-            this.lines.add("│ Daily Report           │");
-            this.lines.add("├────────────────────┬───────┤");
-            this.lines.add("│ Product         │ #    │");
-            this.lines.add("├────────────────────┼───────┤");
+            this.lines.add("+----------------------------+");
+            this.lines.add("| Daily Report           |");
+            this.lines.add("+--------------------+-------+");
+            this.lines.add("| Product         | #    |");
+            this.lines.add("+--------------------+-------+");
         }
         if(this.type==ReportType.INVENTORY)
         {
-            this.leftAlignFormat = "│ %-15s │ %-4d │";
+            this.leftAlignFormat = "| %-15s | %-4d |";
 
-            this.lines.add("┌────────────────────────────┐");
-            this.lines.add("│ Inventory Report       │");
-            this.lines.add("├────────────────────┬───────┤");
-            this.lines.add("│ Product         │ #    │");
-            this.lines.add("├────────────────────┼───────┤");
+            this.lines.add("+----------------------------+");
+            this.lines.add("| Inventory Report       |");
+            this.lines.add("+--------------------+-------+");
+            this.lines.add("| Product         | #    |");
+            this.lines.add("+--------------------+-------+");
         }
         if(this.type==ReportType.RECEIPT)
         {
-            this.leftAlignFormat = "│ %-13s │ %-6f │";
+            this.leftAlignFormat = "| %-13s | %-6f |";
 
-            this.lines.add("┌────────────────────────────┐");
-            this.lines.add("│ Receipt                │");
-            this.lines.add("├──────────────────┬─────────┤");
-            this.lines.add("│ Product       │ $      │");
-            this.lines.add("├──────────────────┼─────────┤");
+            this.lines.add("+----------------------------+");
+            this.lines.add("| Receipt                |");
+            this.lines.add("+------------------+---------+");
+            this.lines.add("| Product       | $      |");
+            this.lines.add("+------------------+---------+");
         }
     }
 
     void makeFooter(){
         if(this.type==ReportType.DAILY)
         {
-            this.lines.add("├────────────────────────────┤");
-            this.lines.add("│ End of Daily Report    │");
+            this.lines.add("+----------------------------+");
+            this.lines.add("| End of Daily Report    |");
         }
         if(this.type==ReportType.INVENTORY)
         {
-            this.lines.add("│ End of Inventory Report│");
+            this.lines.add("| End of Inventory Report|");
         }
         if(this.type==ReportType.RECEIPT)
         {
-            this.lines.add("│ X:____________________ │");
-            this.lines.add("├────────────────────────────┤");
-            this.lines.add("│ End of Receipt         │");
+            this.lines.add("| X:____________________ |");
+            this.lines.add("+----------------------------+");
+            this.lines.add("| End of Receipt         |");
         }
-        this.lines.add("└────────────────────────────┘");
+        this.lines.add("+----------------------------+");
     }
 
     void addLine(String s){
