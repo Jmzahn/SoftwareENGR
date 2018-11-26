@@ -62,7 +62,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
         }
         catch(InputMismatchException e){
             e.printStackTrace();
-            System.err.println("Must give valid input ");
+        //    System.err.println("Must give valid input ");
         }
 
     }
