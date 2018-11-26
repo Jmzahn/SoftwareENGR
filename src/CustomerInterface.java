@@ -37,7 +37,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
         
         try{
             // Payment type selection menu
-            System.out.println("Press 0 to Cancel");
+            System.out.println("Press 0 to cancel payment");
             System.out.println("Press 1 for Cash");
             System.out.println("Press 2 for Credit");
             System.out.println("Press 3 for Debit");
@@ -62,7 +62,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
         }
         catch(InputMismatchException e){
             e.printStackTrace();
-            System.err.println("Must give valid input ");  
+            System.err.println("Must give valid input ");
         }
 
     }
