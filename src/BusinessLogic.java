@@ -41,6 +41,7 @@ public class BusinessLogic {//TODO
         {
             r.makeFooter();
             PrinterInterface.printReport(r);
+            return;
         }
         line="+---------------+--+---------+";
         r.addLine(line);

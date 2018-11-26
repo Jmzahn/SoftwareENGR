@@ -100,16 +100,12 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             if(dif!=0)//if we need to dispense change do so
             {
                 System.out.println("Dispensing Change...  "+dif+"\nTransaction complete!\nPrinting receipt.");
-                Report receipt = BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
-
-                PrinterInterface.printReport(receipt);
+                BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
             }
             else//otherwise just print the receipt
             {
                 System.out.println("\nTransaction complete!\nPrinting receipt.");
-                Report receipt = BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
-
-                PrinterInterface.printReport(receipt);
+                BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
             }
         }//not sure where to go from here, im guessing welcome page for next customer
         welcome();
