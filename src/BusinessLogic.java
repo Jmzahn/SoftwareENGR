@@ -23,7 +23,7 @@ public class BusinessLogic {//TODO
     }
 
 
-    static Report prepareReceipt(Transaction transaction, Account account){//called by payCash and payCard
+    static void prepareReceipt(Transaction transaction, Account account){//called by payCash and payCard
         Report r = new Report(ReportType.RECEIPT);
         r.makeHeader();
 
@@ -40,19 +40,19 @@ public class BusinessLogic {//TODO
         if(account==null)
         {
             r.makeFooter();
-            return r;
+            PrinterInterface.printReport(r);
         }
         line="+---------------+--+---------+";
         r.addLine(line);
         line="| Last 4 CardNo | AuthNo |";
         r.addLine(line);
         format="| %-13s | %-6s |";
-        line=String.format(format,account.cardNo.subSequence(12,15),account.authNo);
+        line=String.format(format,account.getCardNo().subSequence(12,15),account.getAuthNo());
         r.addLine(line);
         line="+---------------+------------+";
         r.addLine(line);
         r.makeFooter();
-        return r;
+        PrinterInterface.printReport(r);
     }
 
     static double computeTax(double preTax) {

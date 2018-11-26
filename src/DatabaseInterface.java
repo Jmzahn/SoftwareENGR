@@ -4,11 +4,11 @@ import java.util.List;
 public class DatabaseInterface {
     private static Database database = new Database();
 
-    static Database getDatabase(){
+    public static Database getDatabase(){
         return database;
     }
 
-    static void setDatabase(Database d){
+    public static void setDatabase(Database d){
         database=d;
     }
 

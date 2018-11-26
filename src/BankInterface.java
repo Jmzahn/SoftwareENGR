@@ -1,7 +1,13 @@
 
+import java.util.List;
 import java.util.Scanner;
 
 public class BankInterface {
+    List<Account> accounts=DatabaseInterface.getDatabase().getAccountList();
+    /*
+    query these accounts for cardNo, cardType(debit(they're all debit)/credit), PIN, and AuthorizationNo
+    Someone will need to fill the AccountList.csv TODO
+    */
 
    public static void GetCardNo(){
        String  DebitAnswer, cardNo, PIN;
@@ -27,13 +33,13 @@ public class BankInterface {
                    {
                        System.out.println("Card Accepted");
                        checkr = 1;
-                       getReceipt(cardNo);
+                       System.out.println(getReceipt(cardNo));
                    }
                }
                else if(DebitAnswer.equals("N") || (DebitAnswer.equals("n")))
                {
                    System.out.println("Card Accepted");
-                   getReceipt(cardNo);
+                   System.out.println(getReceipt(cardNo));
                    checkr = 1;
                }
                else{
@@ -51,12 +57,13 @@ public class BankInterface {
    
     
 }
-       public String getReceipt(string cardNo)
+       static String getReceipt(String cardNo)
    {
-       lastFour = cardNo.substring(cardNo.length() - 4);
-       return (System.out.println("Your receipt:\nLast four digits: " + lastFour));
+       String lastFour = cardNo.substring(cardNo.length() - 4);
+       lastFour="Your receipt:\nLast four digits: " + lastFour;
+       return lastFour;
     }
-  
+
 public static void main(String[] args)
 {
    GetCardNo();

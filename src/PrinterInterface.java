@@ -5,7 +5,7 @@ public class PrinterInterface {
         ArrayList<String> lines=r.getLines();
         for (String l:lines)
         {
-            System.out.print(l);
+            System.out.println(l);
         }
     }
 }
