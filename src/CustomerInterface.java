@@ -10,9 +10,11 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
 
     static Transaction transaction;
     static double subTotal,total;
-    static void welcome(){
 
+    static void welcome(){
+        System.out.println("Welcome to checkout");
     }
+
     static void startCheckout(){
         transaction=new Transaction();
         subTotal=transaction.getTotal();//sets to default==0.0
@@ -21,20 +23,48 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
 
     }
     static void displaySubTotal(){
-
+        System.out.println(subTotal);
     }
     static void displayTotal(){
         total=BusinessLogic.computeTax(subTotal);
-        System.out.println("Total is : "+total);
+        System.out.println(total);
     }
     static void selectPayment()
     {
+        Scanner selectpay = new Scanner(System.in);
+        
+        int selector;
+        
+        try{
+            // Payment type selection menu
+            System.out.println("Press 0 to Cancel");
+            System.out.println("Press 1 for Cash");
+            System.out.println("Press 2 for Credit");
+            System.out.println("Press 3 for Debit");
+            System.out.print("Please select payment type:");
+            selector = selectpay.nextInt();
+        
+            if(selector == 0){
+                cancel(0);
+            }
+            else if(selector == 1){
+                payCash();
+            }
+            else if(selector == 2 ){
+                BankInterface.GetCardNo();      // Calls bank interface to approve payment ( Credit )
+            }
+            else if(selector == 3){
+                BankInterface.GetCardNo();      // Calls bank interface to approve payment ( Debit )
+            }
+            else{
+                System.out.println("Must select an option");    //a User gives number grreater then 3 or less than 0
+            }
+        }
+        catch(InputMismatchException e){
+            e.printStackTrace();
+            System.err.println("Must give valid input ");  
+        }
 
-    }
-
-    static void payCard()
-    {
-        BankInterface.GetCardNo();
     }
 
     static void payCash()
@@ -70,18 +100,27 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             if(dif!=0)//if we need to dispense change do so
             {
                 System.out.println("Dispensing Change...  "+dif+"\nTransaction complete!\nPrinting receipt.");
-                BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
+                Report receipt = BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
+
+                PrinterInterface.printReport(receipt);
             }
             else//otherwise just print the receipt
             {
                 System.out.println("\nTransaction complete!\nPrinting receipt.");
-                BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
+                Report receipt = BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
+
+                PrinterInterface.printReport(receipt);
             }
         }//not sure where to go from here, im guessing welcome page for next customer
         welcome();
     }
     static void cancel(int t)//t==0 for cancel payment, t==1 for cancel order
     {
-
+        if( t == 0 ){
+            System.out.println("\nPayment method has been cancled");
+        }
+        if( t == 1 ){
+            System.out.println("\nOrder has been cancled");
+        }
     }
 }
