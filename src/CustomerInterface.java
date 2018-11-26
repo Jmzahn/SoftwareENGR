@@ -43,18 +43,21 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             System.out.println("Press 3 for Debit");
             System.out.print("Please select payment type:");
             selector = selectpay.nextInt();
+
         
             if(selector == 0){
                 cancel(0);
             }
             else if(selector == 1){
-                payCash();
+                payCash();                      // 
             }
             else if(selector == 2 ){
-                BankInterface.GetCardNo();      // Calls bank interface to approve payment ( Credit )
+                BankInterface.GetCardDNo();      // Calls bank interface to approve payment ( Credit )
+                selectpay.nextInt();
+
             }
             else if(selector == 3){
-                BankInterface.GetCardNo();      // Calls bank interface to approve payment ( Debit )
+                BankInterface.GetCardCNo();      // Calls bank interface to approve payment ( Debit )
             }
             else{
                 System.out.println("Must select an option");    //a User gives number grreater then 3 or less than 0
