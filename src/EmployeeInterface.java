@@ -12,11 +12,12 @@ public class EmployeeInterface//I added a static Database to DatabaseInterface t
         else if(wut==2)
             updateItem();
         System.out.println("Leaving Employee Interface!");
+        sel.close();
     }
     //Database database = DatabaseInterface.getDatabase();
     private static void updateItem(){
         Scanner kb = new Scanner(System.in);
-        Database database = new Database();
+        Database database = DatabaseInterface.getDatabase();
         boolean cont=true;
         while(cont)
         {

@@ -34,6 +34,7 @@ class BankInterface {
                     if(PIN.equals(accounts.get(i).getPin()))
                     {
                         System.out.println("Card Accepted");
+                        accounts.get(i).setAuthNo(getAuthNo());
                         return accounts.get(i);
 
                         
