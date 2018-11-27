@@ -6,6 +6,8 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
     //Im guessing this will be implemented by interaction with the console,
     // as will all IO i.e. Bank Interface, Employee Interface -JZ
 
+
+
     Database database;
 
     static Transaction transaction;
@@ -13,6 +15,12 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
 
     static void welcome(){
         System.out.println("Welcome to checkout");
+        Scanner input = new Scanner(System.in);
+        System.out.println("Press Enter to start");     // Initiates the system
+        cardNo = input.nextLine();
+
+        scan();         // Calls the scan function
+
     }
 
     static void startCheckout(){
@@ -20,8 +28,53 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
         subTotal=transaction.getTotal();//sets to default==0.0
     }
     static void scan(){//use Transaction.add(Item i) to add these items to transaction, make sure to update subtotal
+        System.out.println("Please scan items");
+
+        List < Items > items = database.getInventoryList();
+
+        int count = 1;
+        String name;
+        while(count!= 0){
+            System.out.println("Please enter name of item: ");
+            itemName = input.nextline();
+            for(int i =0; i < items.size(); i++){
+                if( itemName.equals(items.get(i).name){         // Check to make sure the item exist
+                    Transaction.add(itemName);                  // Add item to the transaction list 
+                }
+            }
+            // total,subtotals, cancel
+            System.out.println("Enter 1 to add another item\n");
+            System.out.println("Enter 2 to check the current total\n");
+            System.out.println("Enter 3 to finalize the transaction\n");
+            System.out.println("Enter 4 to cancel the payment\n");
+            
+            select = input.nextline();
+            if(select == 1){
+                // Do nothing and continue loop
+            }
+            if(select == 2){
+                displaySubTotal();
+            }
+            if(select == 3){
+                selectPayment();
+                count = 0;
+            }
+            if(select = 4){
+                cancel(0);
+                count = 0;
+            }
+            else{
+                System.out.println("Invalid option selected");
+            }
+
+            
+
+        }
+        
 
     }
+
+
     static void displaySubTotal(){
         System.out.println(subTotal);
     }
