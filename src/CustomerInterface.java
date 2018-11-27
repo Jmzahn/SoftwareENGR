@@ -21,7 +21,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
         String cardNo = input.nextLine();
         startCheckout();
         scan();         // Calls the scan function
-
+        input.close();
     }
 
     static void startCheckout(){
@@ -30,59 +30,59 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
         subTotal=transaction.getTotal();//sets to default==0.0
     }
     static void scan(){//use Transaction.add(Item i) to add these items to transaction, make sure to update subtotal
-        System.out.println("Please scan items");
+        // System.out.println("Please scan items");
 
         List< Item > items = database.getInventoryList();
         Scanner input=new Scanner(System.in);
         int count = 1;
 
-        while(count!= 0){
-            System.out.println("Please enter name of item: ");
-            String itemName = input.nextLine();
-            for(int i =0; i < items.size(); i++){
-                if( itemName.equals(items.get(i).name)){         // Check to make sure the item exist
-                                      // Add item to the transaction list 
-
-                    if(items.get(i).isBooze){
-                        String booz;
-                        System.out.println("Enter alcohol confirmation code: 1 = confirm, 2 = decline");
-                        booz = input.nextLine();
-                        if(booz.equals("1")){
-                            transaction.addItem(items.get(i));
-                            subTotal += items.get(i).price*(1-items.get(i).discount);
-                            System.out.println(items.get(i));
-                            System.out.println(items.get(i).description);
-                            System.out.println(items.get(i).price);
-
-                        }
-                        else{
-                            cancel(1);      // Cops are on the way, you're underage
-                        }
-
-                    }
-                    else{
-                        transaction.addItem(items.get(i));
-                        subTotal += items.get(i).price*(1-items.get(i).discount);
-                        System.out.println(items.get(i).description);
-                        System.out.println(items.get(i).price);
-                    }
-                }
-            }
+        while(count != 0){
             // total,subtotals, cancel
-            System.out.println("Enter 1 to add another item");
-            System.out.println("Enter 2 to check the current total");
+            System.out.println("Enter 1 to scan item");
+            System.out.println("Enter 2 to check the sub-total");
             System.out.println("Enter 3 to finalize the transaction");
             System.out.println("Enter 4 to cancel the payment");
             
             int select = input.nextInt();
             input.nextLine();
             if(select == 1){
-                // Do nothing and continue loop
+                System.out.println("Please enter name of item: ");
+                String itemName = input.nextLine();
+                for(int i =0; i < items.size(); i++){
+                    if( itemName.equals(items.get(i).name)){         // Check to make sure the item exist
+                                        // Add item to the transaction list 
+
+                        if(items.get(i).isBooze){
+                            String booz;
+                            System.out.println("Enter alcohol confirmation code: 1 = confirm, 2 = decline");
+                            booz = input.nextLine();
+                            if(booz.equals("1")){
+                                transaction.addItem(items.get(i));
+                                subTotal += items.get(i).price*(1-items.get(i).discount);
+                                System.out.println(items.get(i));
+                                System.out.println(items.get(i).description);
+                                System.out.println(items.get(i).price);
+
+                            }
+                            else{
+                                cancel(1);      // Cops are on the way, you're underage
+                            }
+
+                        }
+                        else{
+                            transaction.addItem(items.get(i));
+                            subTotal += items.get(i).price*(1-items.get(i).discount);
+                            System.out.println(items.get(i).description);
+                            System.out.println(items.get(i).price);
+                        }
+                    }
+                }
             }
             else if(select == 2){
                 displaySubTotal();
             }
             else if(select == 3){
+                displayTotal();
                 selectPayment();
                 count = 0;
             }
@@ -95,7 +95,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             }
 
         }
-        
+        input.close();
 
     }
 
@@ -105,6 +105,9 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
     }
     static void displayTotal(){
         total=BusinessLogic.computeTax(subTotal);
+        if(total % .01 != 0){
+            total = total - (total % .01) + .01;
+        }
         System.out.println(total);
     }
     private static void selectPayment()
@@ -130,12 +133,12 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                 payCash();                      // 
             }
             else if(selector == 2 ){
-                BankInterface.GetCardDNo();      // Calls bank interface to approve payment ( Credit )
+                BankInterface.GetCardCNo();      // Calls bank interface to approve payment ( Credit )
                 selectpay.nextInt();
 
             }
             else if(selector == 3){
-                BankInterface.GetCardCNo();      // Calls bank interface to approve payment ( Debit )
+                BankInterface.GetCardDNo();      // Calls bank interface to approve payment ( Debit )
             }
             else{
                 System.out.println("Must select an option");    //a User gives number greater then 3 or less than 0
@@ -152,32 +155,19 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
     {
         double insertedCash=0.0;//since we just got here they haven't put cash in yet
 
-        //This while loop prompts for cash and handles some errors
         boolean passed=false;
         Scanner cashIn=new Scanner(System.in);
-        while (!passed)
-        {
-            System.out.println("Insert cash into bill or coin readers (double) : ");//prompt for cash
-
-            try{//try and grab double
-                insertedCash=cashIn.nextDouble();
-                if(insertedCash%.01==0)//check precision
-                    passed=true;
-                else
-                    System.err.println("Inserted cash cannot be a value with more than two floating values. Retry.");//yell at customer
-
-            }catch (InputMismatchException e)
-            {
-                e.printStackTrace();
-                System.err.println("Must give double.");//yell at customer
-            }
-        }
+        System.out.println("Insert cash into bill or coin readers (double) : ");//prompt for cash
+        insertedCash = cashIn.nextDouble();
+        cashIn.nextLine();
+        
+        insertedCash = (double) ((int) (insertedCash * 100)) / 100;
 
         if(insertedCash<total)//cancel order if insufficient payment
             cancel(1);
         else//otherwise complete it
         {
-            double dif=insertedCash-total;//calculate change
+            double dif= (double) ((int)(insertedCash * 100) - (int)(total * 100)) / 100;//calculate change
             if(dif!=0)//if we need to dispense change do so
             {
                 System.out.println("Dispensing Change...  "+dif+"\nTransaction complete!\nPrinting receipt.");
