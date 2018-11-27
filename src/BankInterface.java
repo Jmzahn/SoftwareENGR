@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class BankInterface {
-    List<Account> accounts=DatabaseInterface.getDatabase().getAccountList();
+    static List<Account> accounts=DatabaseInterface.getDatabase().getAccountList();
     /*
     query these accounts for cardNo, cardType(debit(they're all debit)/credit), PIN, and AuthorizationNo
     Someone will need to fill the AccountList.csv TODO
@@ -36,7 +36,7 @@ public class BankInterface {
             {
                     System.out.println("Enter PIN number:");
                     PIN = input.nextLine();
-                    if(PIN.equals(accounts.get(i).get.getPin())
+                    if(PIN.equals(accounts.get(i).getPin()))
                     {
                         System.out.println("Card Accepted");
                         checkr = 1;
