@@ -2,24 +2,20 @@
 import java.util.List;
 import java.util.Scanner;
 
-public class BankInterface {
-    static List<Account> accounts=DatabaseInterface.getDatabase().getAccountList();
+class BankInterface {
+    private static List<Account> accounts;
     /*
     query these accounts for cardNo, cardType(debit(they're all debit)/credit), PIN, and AuthorizationNo
     Someone will need to fill the AccountList.csv TODO
     */
 
 
-       static String getReceipt(String cardNo)
-   {
-       String lastFour = cardNo.substring(cardNo.length() - 4);
-       lastFour="Your receipt:\nLast four digits: " + lastFour;
-       return lastFour;
-    }
 
-    public static void GetCardDNo(){
-        String  DebitAnswer, cardNo, PIN;
-        int i = 0;   
+
+    static Account GetCardDNo(){
+           accounts=DatabaseInterface.getDatabase().getAccountList();
+        String  cardNo, PIN;
+        int i;
         Scanner input = new Scanner(System.in);
         System.out.println("Enter Card Number:");
         cardNo = input.nextLine();
@@ -39,8 +35,8 @@ public class BankInterface {
                     if(PIN.equals(accounts.get(i).getPin()))
                     {
                         System.out.println("Card Accepted");
-                        checkr = 1;
-                        System.out.println(getReceipt(cardNo));
+                        return accounts.get(i);
+
                         
                     }
                 }
@@ -52,12 +48,13 @@ public class BankInterface {
             System.out.println("Card not recognized");
  
         }
- 
+    return null;
     }
      
-    public static void GetCardCNo(){
-        String  DebitAnswer, cardNo, PIN;
-        int i = 0;   
+    static Account GetCardCNo(){
+        String  cardNo;
+        accounts=DatabaseInterface.getDatabase().getAccountList();
+        int i;
         Scanner input = new Scanner(System.in);
         System.out.println("Enter Card Number:");
         cardNo = input.nextLine();
@@ -78,8 +75,8 @@ public class BankInterface {
                 zipcode = in.nextLine();
                  
                 System.out.println("Card Accepted");
-                checkr = 1;
-                System.out.println(getReceipt(cardNo));
+                return accounts.get(i);
+
      
                 }
                 else{
@@ -88,8 +85,9 @@ public class BankInterface {
             }
          if(checkr == 0){
             System.out.println("Card not recognized");
- 
+
          }
+         return null;
     }
 }
 
