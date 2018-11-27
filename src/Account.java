@@ -1,6 +1,6 @@
 public class Account extends Parsable<Account>
 {
-    String cardNo, cardType, authNo, pin;
+    private String cardNo, cardType, authNo, pin;
 
     public String getCardNo() {
         return cardNo;

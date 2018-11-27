@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -11,9 +12,14 @@ public class Source
     public static void main(String[] args)
     {
         startTimer();//first thing we do is start the timer actor
+        Scanner in=new Scanner(System.in);
+        System.out.println("Boot message:\nEnter 1 for Employee Interface, otherwise Customer Interface will start.");
+        String who=in.nextLine();
 
-
-
+        if(who.toUpperCase().startsWith("1"))
+            EmployeeInterface.welcome();
+        else
+            CustomerInterface.welcome();
     }
     public static void startTimer(){
         final Runnable checkIfMidnight = TimerInterface::calcTime;//makes a Runnable that references TimerInterface's calcTime
