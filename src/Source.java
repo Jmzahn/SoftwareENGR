@@ -21,7 +21,7 @@ public class Source
         else
             CustomerInterface.welcome();
     }
-    public static void startTimer(){
+    private static void startTimer(){
         final Runnable checkIfMidnight = TimerInterface::calcTime;//makes a Runnable that references TimerInterface's calcTime
         final ScheduledFuture<?> timerHandle =
                 scheduler.scheduleAtFixedRate(checkIfMidnight, 1,30, TimeUnit.SECONDS);//this runs the timer thread every 30 seconds

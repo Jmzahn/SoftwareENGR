@@ -20,8 +20,7 @@ class BankInterface {
         System.out.println("Enter Card Number:");
         cardNo = input.nextLine();
         
-        int checkr = 0;
- 
+
         int size;
  
         size = accounts.size();
@@ -44,10 +43,10 @@ class BankInterface {
                     System.out.println("Invalid option entered");
                 }
             }
-         if(checkr == 0){
+
             System.out.println("Card not recognized");
  
-        }
+
     return null;
     }
      
@@ -59,7 +58,7 @@ class BankInterface {
         System.out.println("Enter Card Number:");
         cardNo = input.nextLine();
         
-        int checkr = 0;
+
  
         int size;
  
@@ -83,10 +82,10 @@ class BankInterface {
                     System.out.println("Invalid option entered");
                 }
             }
-         if(checkr == 0){
+
             System.out.println("Card not recognized");
 
-         }
+
          return null;
     }
 }

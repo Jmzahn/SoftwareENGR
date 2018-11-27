@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class BusinessLogic {//TODO
+class BusinessLogic {
     private static Report daily;
     private static Report inventory;
 

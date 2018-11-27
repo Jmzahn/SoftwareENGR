@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.NoSuchMethodException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +14,11 @@ public class Database {
     private List<Transaction> transactionLogList;
     private List<Account> accountList;
 
-    private String _inventoryListFilename = "./Database/InventoryList.csv";
-    private String _transactionLogListFilename = "./Database/TransactionLogList.csv";
-    private String _accountListFilename = "./Database/AccountList.csv";
+    final private String _inventoryListFilename = "./Database/InventoryList.csv";
+    final private String _transactionLogListFilename = "./Database/TransactionLogList.csv";
+    final private String _accountListFilename = "./Database/AccountList.csv";
 
-    public Database(){
+    Database(){
         this.inventoryList = readFromFile(Item.class, this._inventoryListFilename);
         this.transactionLogList = readFromFile(Transaction.class, this._transactionLogListFilename);
         this.accountList = readFromFile(Account.class, this._accountListFilename);
@@ -41,18 +40,10 @@ public class Database {
             line = null;
             reader.close();
         }
-        catch (NoSuchMethodException e){
+        catch (Exception e){
             e.printStackTrace();
         }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        finally {
-            return list;
-        }
+        return list;
     }
 
     // write changes to CSV file
@@ -66,7 +57,7 @@ public class Database {
                 String[] arr = item.toArray();
                 String line = arr[0];
                 for(int i = 1; i < arr.length; i++){
-                    line = line + "," + arr[i];
+                    line += "," + arr[i];
                 }
                 line = line + "\n";
                 out.write(line);

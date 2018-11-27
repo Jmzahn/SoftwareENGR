@@ -1,6 +1,6 @@
 class TimerInterface
 {
-    private static long startTime=System.currentTimeMillis();//logs start time
+    final private static long startTime=System.currentTimeMillis();//logs start time
     static void calcTime() {
         long elapsedTime=System.currentTimeMillis()-startTime;//gets elapsed time
         long elapsedSeconds = elapsedTime / 1000;

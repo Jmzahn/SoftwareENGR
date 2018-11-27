@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseInterface {
+class DatabaseInterface {
     private static Database database = new Database();
 
-    public static Database getDatabase(){
+    static Database getDatabase(){
         return database;
     }
 

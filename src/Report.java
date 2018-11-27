@@ -5,7 +5,7 @@ enum ReportType{
     DAILY,INVENTORY,RECEIPT
 }
 
-public class Report {
+class Report {
     private ArrayList<String> lines;
     private ReportType type;
     private String leftAlignFormat;
