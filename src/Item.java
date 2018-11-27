@@ -1,3 +1,4 @@
+//Team Red, Jacob Zahn, Christopher Gee , James Fallon, Ryan Pratt
 public class Item extends Parsable<Item>
 {
     String name, description;

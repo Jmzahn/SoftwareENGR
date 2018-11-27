@@ -1,3 +1,4 @@
+//Team Red, Jacob Zahn, Christopher Gee , James Fallon, Ryan Pratt
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

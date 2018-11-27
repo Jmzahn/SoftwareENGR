@@ -1,3 +1,4 @@
+//Team Red, Jacob Zahn, Christopher Gee , James Fallon, Ryan Pratt
 class TimerInterface
 {
     private static long startTime=System.currentTimeMillis();//logs start time
