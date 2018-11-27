@@ -48,7 +48,7 @@ class BusinessLogic {
         line="| Last 4 CardNo | AuthNo |";
         r.addLine(line);
         format="| %-13s | %-6s |";
-        line=String.format(format,account.getCardNo().subSequence(12,15),account.getAuthNo());
+        line=String.format(format,account.getCardNo().subSequence(4,8),account.getAuthNo());
         r.addLine(line);
         line="+---------------+------------+";
         r.addLine(line);

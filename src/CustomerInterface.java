@@ -15,13 +15,17 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
     private static double subTotal,total;
 
     static void welcome(){
-        System.out.println("Welcome to checkout");
-        Scanner input = new Scanner(System.in);
-        System.out.println("Press Enter to start");     // Initiates the system
-        String cardNo = input.nextLine();
-        startCheckout();
-        scan();         // Calls the scan function
-        input.close();
+        while(true)
+        {
+            System.out.println("Welcome to checkout");
+            Scanner input = new Scanner(System.in);
+            System.out.println("Press Enter to start");     // Initiates the system
+            String cardNo = input.nextLine();
+            startCheckout();
+            scan();         // Calls the scan function
+            input.close();
+        }
+
     }
 
     static void startCheckout(){
@@ -84,7 +88,6 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             else if(select == 3){
                 displayTotal();
                 selectPayment();
-                count = 0;
             }
             else if(select == 4){
                 cancel(0);
@@ -131,24 +134,25 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                 cancel(0);
             }
             else if(selector == 1){
-                payCash();                      // 
+                payCash();
             }
             else if(selector == 2 ){
                 account=BankInterface.GetCardCNo();      // Calls bank interface to approve payment ( Credit )
                 if(account==null)
                     cancel(0);
                 BusinessLogic.prepareReceipt(transaction,account);
-                welcome();
+
             }
             else if(selector == 3){
                 account=BankInterface.GetCardDNo();      // Calls bank interface to approve payment ( Debit )
                 if(account==null)
                     cancel(0);
                 BusinessLogic.prepareReceipt(transaction,account);
-                welcome();
+
             }
-            else if(selector == 7){
+            else if(selector == 4){
                 cancel(1);
+
             }
             else{
                 System.out.println("Must select an option");    //a User gives number greater then 3 or less than 0
@@ -190,18 +194,17 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                 BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
             }
         }//not sure where to go from here, im guessing welcome page for next customer
-        welcome();
+
     }
     private static void cancel(int t)//t==0 for cancel payment, t==1 for cancel order
     {
         if( t == 0 ){
             System.out.println("\nPayment method has been canceled");
-            scan();
+
         }
-        if( t == 1 ){
+        else if( t == 1 ){
             System.out.println("\nOrder has been canceled");
             transaction=null;
-            welcome();
         }
     }
 }
