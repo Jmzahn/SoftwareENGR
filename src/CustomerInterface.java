@@ -41,7 +41,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             System.out.println("Enter 1 to scan item");
             System.out.println("Enter 2 to check the sub-total");
             System.out.println("Enter 3 to finalize the transaction");
-            System.out.println("Enter 4 to cancel the payment");
+            System.out.println("Enter 4 to cancel the transaction");
             
             int select = input.nextInt();
             input.nextLine();
@@ -122,6 +122,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             System.out.println("Press 1 for Cash");
             System.out.println("Press 2 for Credit");
             System.out.println("Press 3 for Debit");
+            System.out.println("Press 4 to cancel transaction");
             System.out.print("Please select payment type:");
             selector = selectpay.nextInt();
 
@@ -134,13 +135,20 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             }
             else if(selector == 2 ){
                 account=BankInterface.GetCardCNo();      // Calls bank interface to approve payment ( Credit )
+                if(account==null)
+                    cancel(0);
                 BusinessLogic.prepareReceipt(transaction,account);
                 welcome();
             }
             else if(selector == 3){
                 account=BankInterface.GetCardDNo();      // Calls bank interface to approve payment ( Debit )
+                if(account==null)
+                    cancel(0);
                 BusinessLogic.prepareReceipt(transaction,account);
                 welcome();
+            }
+            else if(selector == 7){
+                cancel(1);
             }
             else{
                 System.out.println("Must select an option");    //a User gives number greater then 3 or less than 0
@@ -158,13 +166,14 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
         double insertedCash=0.0;//since we just got here they haven't put cash in yet
 
         Scanner cashIn=new Scanner(System.in);
-        System.out.println("Insert cash into bill or coin readers (double) : ");//prompt for cash
+        System.out.println("Insert cash into bill or coin readers (double)\n (enter -1 to cancel payment) : ");//prompt for cash
         insertedCash = cashIn.nextDouble();
         cashIn.nextLine();
         cashIn.close();
         
         insertedCash = (double) ((int) (insertedCash * 100)) / 100;
-
+        if(insertedCash==-1)
+            cancel(0);
         if(insertedCash<total)//cancel order if insufficient payment
             cancel(1);
         else//otherwise complete it

@@ -17,10 +17,11 @@ class BankInterface {
         String  cardNo, PIN;
         int i;
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter Card Number:");
+        System.out.println("Enter Card Number (enter -1 to cancel payment):");
         cardNo = input.nextLine();
-        
 
+        if(cardNo.equals("-1"))
+            return null;
         int size;
  
         size = accounts.size();
@@ -56,11 +57,12 @@ class BankInterface {
         accounts=DatabaseInterface.getDatabase().getAccountList();
         int i;
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter Card Number:");
+        System.out.println("Enter Card Number (enter -1 to cancel payment):");
         cardNo = input.nextLine();
         input.close();
 
- 
+        if(cardNo.equals("-1"))
+            return null;
         int size;
  
         size = accounts.size();
