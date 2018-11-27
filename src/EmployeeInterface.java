@@ -115,6 +115,7 @@ public class EmployeeInterface//I added a static Database to DatabaseInterface t
                 cont=false;
             }
         }
+        kb.close();
     }
 
     private static void restockItem(){
@@ -144,7 +145,7 @@ public class EmployeeInterface//I added a static Database to DatabaseInterface t
                 cont=false;
             }
         }
-
+        kb.close();
     }
 
     private static Item getItem(String itemName, Database database){
