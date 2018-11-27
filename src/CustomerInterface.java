@@ -1,5 +1,4 @@
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class CustomerInterface////I added a static Database to DatabaseInterface that you can pull via get method, and push via set
@@ -9,49 +8,72 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
 
 
 
-    private static Database database;
-    private static Scanner input;
-    private static Transaction transaction;
-    private static double subTotal,total;
+    Database database;
+
+    static Transaction transaction;
+    static double subTotal,total;
 
     static void welcome(){
         System.out.println("Welcome to checkout");
-        input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
         System.out.println("Press Enter to start");     // Initiates the system
-        String cardNo = input.nextLine();
-        startCheckout();
+        cardNo = input.nextLine();
+
         scan();         // Calls the scan function
 
     }
 
-    private static void startCheckout(){
-        database=DatabaseInterface.getDatabase();
+    static void startCheckout(){
         transaction=new Transaction();
         subTotal=transaction.getTotal();//sets to default==0.0
     }
-    private static void scan(){//use Transaction.add(Item i) to add these items to transaction, make sure to update subtotal
+    static void scan(){//use Transaction.add(Item i) to add these items to transaction, make sure to update subtotal
         System.out.println("Please scan items");
 
-        List< Item > items = database.getInventoryList();
+        List < Items > items = database.getInventoryList();
 
         int count = 1;
-
+        String name;
         while(count!= 0){
             System.out.println("Please enter name of item: ");
-            String itemName = input.nextLine();
+            itemName = input.nextline();
             for(int i =0; i < items.size(); i++){
-                if( itemName.equals(items.get(i).name)){         // Check to make sure the item exist
-                    transaction.addItem(items.get(i));                  // Add item to the transaction list
+                if( itemName.equals(items.get(i).name){         // Check to make sure the item exist
+                                      // Add item to the transaction list 
+
+                    if(items.get(i).isbooze()){
+                        String booz;
+                        System.out.println("Enter alcohol confirmation code: 1 = confirm, 2 = decline");
+                        booz = input.nextline();
+                        if(booz.equals(1)){
+                            Transaction.add(items.get(i));
+                            subtotal += items.get(i).price*items.get(i).discount;
+                            System.out.println(items.get(i));
+                            System.out.println(items.get(i).description);
+                            System.out.println(items.get(i).price);
+
+                        }
+                        else{
+                            cancel(1);      // Cops are on the way, you're underage
+                        }
+
+                    }
+                    else{
+                        Transaction.add(items.get(i));
+                        subtotal += items.get(i).price*items.get(i).discount;
+                        System.out.println(items.get(i));
+                        System.out.println(items.get(i).description);
+                        System.out.println(items.get(i).price);
+                    }
                 }
             }
             // total,subtotals, cancel
-            System.out.println("Enter 1 to add another item\n");
-            System.out.println("Enter 2 to check the current total\n");
-            System.out.println("Enter 3 to show total\n");
-            System.out.println("Enter 4 to cancel the payment\n");
+            System.out.println("Enter 1 to add another item");
+            System.out.println("Enter 2 to check the current total");
+            System.out.println("Enter 3 to finalize the transaction");
+            System.out.println("Enter 4 to cancel the payment");
             
-            int select = input.nextInt();
-            input.nextLine();
+            select = input.nextline();
             if(select == 1){
                 // Do nothing and continue loop
             }
@@ -59,11 +81,10 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                 displaySubTotal();
             }
             if(select == 3){
-                displayTotal();
                 selectPayment();
                 count = 0;
             }
-            if(select == 4){
+            if(select = 4){
                 cancel(0);
                 count = 0;
             }
@@ -71,22 +92,20 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                 System.out.println("Invalid option selected");
             }
 
-            
-
         }
         
 
     }
 
 
-    private static void displaySubTotal(){
+    static void displaySubTotal(){
         System.out.println(subTotal);
     }
-    private static void displayTotal(){
+    static void displayTotal(){
         total=BusinessLogic.computeTax(subTotal);
         System.out.println(total);
     }
-    private static void selectPayment()
+    static void selectPayment()
     {
         Scanner selectpay = new Scanner(System.in);
         
@@ -100,7 +119,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             System.out.println("Press 3 for Debit");
             System.out.print("Please select payment type:");
             selector = selectpay.nextInt();
-            Account account;
+
         
             if(selector == 0){
                 cancel(0);
@@ -109,17 +128,15 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                 payCash();                      // 
             }
             else if(selector == 2 ){
-                account=BankInterface.GetCardDNo();      // Calls bank interface to approve payment ( Credit )
-                BusinessLogic.prepareReceipt(transaction,account);
-                cancel(1);
+                BankInterface.GetCardDNo();      // Calls bank interface to approve payment ( Credit )
+                selectpay.nextInt();
+
             }
             else if(selector == 3){
-                account=BankInterface.GetCardCNo();      // Calls bank interface to approve payment ( Debit )
-                BusinessLogic.prepareReceipt(transaction,account);
-                cancel(1);
+                BankInterface.GetCardCNo();      // Calls bank interface to approve payment ( Debit )
             }
             else{
-                System.out.println("Must select an option");    //a User gives number grreater then 3 or less than 0
+                System.out.println("Must select an option");    //a User gives number greater then 3 or less than 0
             }
         }
         catch(InputMismatchException e){
@@ -129,7 +146,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
 
     }
 
-    private static void payCash()
+    static void payCash()
     {
         double insertedCash=0.0;//since we just got here they haven't put cash in yet
 
@@ -172,16 +189,14 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
         }//not sure where to go from here, im guessing welcome page for next customer
         welcome();
     }
-    private static void cancel(int t)//t==0 for cancel payment, t==1 for cancel order
+    static void cancel(int t)//t==0 for cancel payment, t==1 for cancel order
     {
         if( t == 0 ){
-            System.out.println("\nPayment method has been canceled");
-            scan();
+            System.out.println("\nPayment method has been cancled");
+
         }
         if( t == 1 ){
-            System.out.println("\nOrder has been canceled");
-            transaction=null;
-            welcome();
+            System.out.println("\nOrder has been cancled");
         }
     }
 }
