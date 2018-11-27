@@ -150,7 +150,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             e.printStackTrace();
         //    System.err.println("Must give valid input ");
         }
-
+        selectpay.close();
     }
 
     private static void payCash()
@@ -161,6 +161,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
         System.out.println("Insert cash into bill or coin readers (double) : ");//prompt for cash
         insertedCash = cashIn.nextDouble();
         cashIn.nextLine();
+        cashIn.close();
         
         insertedCash = (double) ((int) (insertedCash * 100)) / 100;
 
