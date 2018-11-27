@@ -1,3 +1,5 @@
+//Team Red, Jacob Zahn, Christopher Gee , James Fallon, Ryan Pratt
+
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -128,7 +130,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             System.out.println("Press 4 to cancel transaction");
             System.out.print("Please select payment type:");
             selector = selectpay.nextInt();
-
+            selectpay.nextLine();
         
             if(selector == 0){
                 cancel(0);
