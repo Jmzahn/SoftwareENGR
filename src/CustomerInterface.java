@@ -49,7 +49,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                         booz = input.nextLine();
                         if(booz.equals("1")){
                             transaction.addItem(items.get(i));
-                            subTotal += items.get(i).price*items.get(i).discount;
+                            subTotal += items.get(i).price*(1-items.get(i).discount);
                             System.out.println(items.get(i));
                             System.out.println(items.get(i).description);
                             System.out.println(items.get(i).price);
@@ -62,8 +62,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                     }
                     else{
                         transaction.addItem(items.get(i));
-                        subTotal += items.get(i).price*items.get(i).discount;
-                        System.out.println(items.get(i));
+                        subTotal += items.get(i).price*(1-items.get(i).discount);
                         System.out.println(items.get(i).description);
                         System.out.println(items.get(i).price);
                     }
@@ -80,14 +79,14 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             if(select == 1){
                 // Do nothing and continue loop
             }
-            if(select == 2){
+            else if(select == 2){
                 displaySubTotal();
             }
-            if(select == 3){
+            else if(select == 3){
                 selectPayment();
                 count = 0;
             }
-            if(select == 4){
+            else if(select == 4){
                 cancel(0);
                 count = 0;
             }
