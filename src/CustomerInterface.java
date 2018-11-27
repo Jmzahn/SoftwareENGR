@@ -1,4 +1,5 @@
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class CustomerInterface////I added a static Database to DatabaseInterface that you can pull via get method, and push via set
@@ -8,46 +9,47 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
 
 
 
-    Database database;
+    private static Database database;
 
-    static Transaction transaction;
-    static double subTotal,total;
+    private static Transaction transaction;
+    private static double subTotal,total;
 
     static void welcome(){
         System.out.println("Welcome to checkout");
         Scanner input = new Scanner(System.in);
         System.out.println("Press Enter to start");     // Initiates the system
-        cardNo = input.nextLine();
-
+        String cardNo = input.nextLine();
+        startCheckout();
         scan();         // Calls the scan function
 
     }
 
     static void startCheckout(){
+        database=DatabaseInterface.getDatabase();
         transaction=new Transaction();
         subTotal=transaction.getTotal();//sets to default==0.0
     }
     static void scan(){//use Transaction.add(Item i) to add these items to transaction, make sure to update subtotal
         System.out.println("Please scan items");
 
-        List < Items > items = database.getInventoryList();
-
+        List< Item > items = database.getInventoryList();
+        Scanner input=new Scanner(System.in);
         int count = 1;
-        String name;
+
         while(count!= 0){
             System.out.println("Please enter name of item: ");
-            itemName = input.nextline();
+            String itemName = input.nextLine();
             for(int i =0; i < items.size(); i++){
-                if( itemName.equals(items.get(i).name){         // Check to make sure the item exist
+                if( itemName.equals(items.get(i).name)){         // Check to make sure the item exist
                                       // Add item to the transaction list 
 
-                    if(items.get(i).isbooze()){
+                    if(items.get(i).isBooze){
                         String booz;
                         System.out.println("Enter alcohol confirmation code: 1 = confirm, 2 = decline");
-                        booz = input.nextline();
-                        if(booz.equals(1)){
-                            Transaction.add(items.get(i));
-                            subtotal += items.get(i).price*items.get(i).discount;
+                        booz = input.nextLine();
+                        if(booz.equals("1")){
+                            transaction.addItem(items.get(i));
+                            subTotal += items.get(i).price*items.get(i).discount;
                             System.out.println(items.get(i));
                             System.out.println(items.get(i).description);
                             System.out.println(items.get(i).price);
@@ -59,8 +61,8 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
 
                     }
                     else{
-                        Transaction.add(items.get(i));
-                        subtotal += items.get(i).price*items.get(i).discount;
+                        transaction.addItem(items.get(i));
+                        subTotal += items.get(i).price*items.get(i).discount;
                         System.out.println(items.get(i));
                         System.out.println(items.get(i).description);
                         System.out.println(items.get(i).price);
@@ -73,7 +75,8 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             System.out.println("Enter 3 to finalize the transaction");
             System.out.println("Enter 4 to cancel the payment");
             
-            select = input.nextline();
+            int select = input.nextInt();
+            input.nextLine();
             if(select == 1){
                 // Do nothing and continue loop
             }
@@ -84,7 +87,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                 selectPayment();
                 count = 0;
             }
-            if(select = 4){
+            if(select == 4){
                 cancel(0);
                 count = 0;
             }
@@ -98,14 +101,14 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
     }
 
 
-    static void displaySubTotal(){
+    private static void displaySubTotal(){
         System.out.println(subTotal);
     }
     static void displayTotal(){
         total=BusinessLogic.computeTax(subTotal);
         System.out.println(total);
     }
-    static void selectPayment()
+    private static void selectPayment()
     {
         Scanner selectpay = new Scanner(System.in);
         
@@ -146,7 +149,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
 
     }
 
-    static void payCash()
+    private static void payCash()
     {
         double insertedCash=0.0;//since we just got here they haven't put cash in yet
 
@@ -189,7 +192,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
         }//not sure where to go from here, im guessing welcome page for next customer
         welcome();
     }
-    static void cancel(int t)//t==0 for cancel payment, t==1 for cancel order
+    private static void cancel(int t)//t==0 for cancel payment, t==1 for cancel order
     {
         if( t == 0 ){
             System.out.println("\nPayment method has been cancled");
