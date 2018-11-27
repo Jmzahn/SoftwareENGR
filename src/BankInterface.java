@@ -74,6 +74,7 @@ class BankInterface {
                 zipcode = in.nextLine();
                  
                 System.out.println("Card Accepted");
+                accounts.get(i).setAuthNo(getAuthNo());
                 return accounts.get(i);
 
      
@@ -87,6 +88,14 @@ class BankInterface {
 
 
          return null;
+    }
+
+    static String getAuthNo(){
+        Scanner in=new Scanner(System.in);
+        System.out.print("Authorization Center says:\n Enter Authorization number: ");
+        String auth=in.nextLine();
+        in.close();
+        return auth;
     }
 }
 

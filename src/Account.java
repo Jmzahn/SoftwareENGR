@@ -14,6 +14,10 @@ public class Account extends Parsable<Account>
         return authNo;
     }
 
+    public void setAuthNo(String authNo) {
+        this.authNo = authNo;
+    }
+
     public String getPin() {
         return pin;
     }

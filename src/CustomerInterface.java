@@ -113,7 +113,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
     private static void selectPayment()
     {
         Scanner selectpay = new Scanner(System.in);
-        
+        Account account;
         int selector;
         
         try{
@@ -133,12 +133,14 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                 payCash();                      // 
             }
             else if(selector == 2 ){
-                BankInterface.GetCardCNo();      // Calls bank interface to approve payment ( Credit )
-                selectpay.nextInt();
-
+                account=BankInterface.GetCardCNo();      // Calls bank interface to approve payment ( Credit )
+                BusinessLogic.prepareReceipt(transaction,account);
+                welcome();
             }
             else if(selector == 3){
-                BankInterface.GetCardDNo();      // Calls bank interface to approve payment ( Debit )
+                account=BankInterface.GetCardDNo();      // Calls bank interface to approve payment ( Debit )
+                BusinessLogic.prepareReceipt(transaction,account);
+                welcome();
             }
             else{
                 System.out.println("Must select an option");    //a User gives number greater then 3 or less than 0
@@ -155,7 +157,6 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
     {
         double insertedCash=0.0;//since we just got here they haven't put cash in yet
 
-        boolean passed=false;
         Scanner cashIn=new Scanner(System.in);
         System.out.println("Insert cash into bill or coin readers (double) : ");//prompt for cash
         insertedCash = cashIn.nextDouble();
@@ -184,11 +185,13 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
     private static void cancel(int t)//t==0 for cancel payment, t==1 for cancel order
     {
         if( t == 0 ){
-            System.out.println("\nPayment method has been cancled");
-
+            System.out.println("\nPayment method has been canceled");
+            scan();
         }
         if( t == 1 ){
-            System.out.println("\nOrder has been cancled");
+            System.out.println("\nOrder has been canceled");
+            transaction=null;
+            welcome();
         }
     }
 }
