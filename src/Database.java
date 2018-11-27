@@ -19,25 +19,63 @@ public class Database {
     final private String _accountListFilename = "./Database/AccountList.csv";
 
     Database(){
-        this.inventoryList = readFromFile(Item.class, this._inventoryListFilename);
-        this.transactionLogList = readFromFile(Transaction.class, this._transactionLogListFilename);
-        this.accountList = readFromFile(Account.class, this._accountListFilename);
+        this.inventoryList = readItemsFromFile();
+        this.transactionLogList = readTransactionsFromFile();
+        this.accountList = readAccountsFromFile();
     }
 
-    private <T extends Parsable> List<T> readFromFile(Class<T> klass, String fileName){
-        List<T> list = new ArrayList<>();
+    private List<Item> readItemsFromFile(){
+        List<Item> list = new ArrayList<>();
         try {
-            Constructor<T> ctor = klass.getConstructor(String[].class);
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            BufferedReader reader = new BufferedReader(new FileReader(_inventoryListFilename));
             String line = reader.readLine();
             while (line != null) {
                 String[] fields = line.split(",");
                 if(fields.length > 0){
-                    list.add(ctor.newInstance(fields));
+                    list.add(new Item(fields));
                 }
                 line = reader.readLine();
             }
-            line = null;
+            reader.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    private List<Account> readAccountsFromFile(){
+        List<Account> list = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(_accountListFilename));
+            String line = reader.readLine();
+            while (line != null) {
+                String[] fields = line.split(",");
+                if(fields.length > 0){
+                    list.add(new Account(fields));
+                }
+                line = reader.readLine();
+            }
+            reader.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    private List<Transaction> readTransactionsFromFile(){
+        List<Transaction> list = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(_transactionLogListFilename));
+            String line = reader.readLine();
+            while (line != null) {
+                String[] fields = line.split(",");
+                if(fields.length > 0){
+                    list.add(new Transaction(fields));
+                }
+                line = reader.readLine();
+            }
             reader.close();
         }
         catch (Exception e){

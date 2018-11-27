@@ -10,7 +10,7 @@ public class Transaction extends Parsable<Transaction>
 
     Transaction(){
         this.total=0;
-        this.cart=null;
+        this.cart= new ArrayList<Item>();
     }
 
     public Transaction(double total, List<Item> cart){
