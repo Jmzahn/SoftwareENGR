@@ -47,7 +47,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             System.out.println("Enter 1 to scan item");
             System.out.println("Enter 2 to check the sub-total");
             System.out.println("Enter 3 to finalize the transaction");
-            System.out.println("Enter 4 to cancel the transaction");
+            System.out.print("Enter 4 to cancel the transaction");
             
             int select = input.nextInt();
             input.nextLine();
@@ -90,6 +90,8 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             else if(select == 3){
                 displayTotal();
                 selectPayment();
+                input.close();
+                input=new Scanner(System.in);
             }
             else if(select == 4){
                 cancel(0);

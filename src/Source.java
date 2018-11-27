@@ -12,15 +12,21 @@ public class Source
         Executors.newScheduledThreadPool(1);
     public static void main(String[] args)
     {
-        startTimer();//first thing we do is start the timer actor
-        Scanner in=new Scanner(System.in);
-        System.out.println("Boot message:\nEnter 1 for Employee Interface, otherwise Customer Interface will start.");
-        String who=in.nextLine();
+        try{
+            startTimer();//first thing we do is start the timer actor
+            Scanner in=new Scanner(System.in);
+            System.out.println("Boot message:\nEnter 1 for Employee Interface, otherwise Customer Interface will start.");
+            String who=in.nextLine();
 
-        if(who.toUpperCase().startsWith("1"))
-            EmployeeInterface.welcome();
-        else
-            CustomerInterface.welcome();
+            if(who.toUpperCase().startsWith("1"))
+                EmployeeInterface.welcome();
+            else
+                CustomerInterface.welcome();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
     }
     private static void startTimer(){
         final Runnable checkIfMidnight = TimerInterface::calcTime;//makes a Runnable that references TimerInterface's calcTime
