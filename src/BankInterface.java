@@ -6,7 +6,7 @@ class BankInterface {
     private static List<Account> accounts;
     /*
     query these accounts for cardNo, cardType(debit(they're all debit)/credit), PIN, and AuthorizationNo
-    Someone will need to fill the AccountList.csv TODO
+    Someone will need to fill the AccountList.csv
     */
 
 
