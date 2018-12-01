@@ -20,6 +20,7 @@ class BusinessLogic {
 
     private static void printReports(){//called by timerSignal, prints reports
         PrinterInterface.printReport(daily);
+        System.out.println();
         PrinterInterface.printReport(inventory);
     }
 
@@ -44,11 +45,11 @@ class BusinessLogic {
             PrinterInterface.printReport(r);
             return;
         }
-        line="+---------------+--+---------+";
+        line="+------------------+---------+";
         r.addLine(line);
-        line="| Last 4 CardNo | AuthNo |";
+        line="| Last 4 CardNo    | AuthNo  |";
         r.addLine(line);
-        format="| %-13s | %-6s |";
+        format="| %-16s | %-7s |";
         line=String.format(format,account.getCardNo().subSequence(4,8),account.getAuthNo());
         r.addLine(line);
         line="+---------------+------------+";

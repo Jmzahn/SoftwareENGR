@@ -57,7 +57,7 @@ class DatabaseInterface {
         }
         line="+--------------------+-------+";
         lines.add(line);
-        format="| Total: %,011.2f |";
+        format="| Total:       $ %,011.2f |";
         line=String.format(format,total);//adds formatted total onto lines
         lines.add(line);
         d.addLines(lines);//adds lines to the report

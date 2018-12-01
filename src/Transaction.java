@@ -11,7 +11,7 @@ public class Transaction extends Parsable<Transaction>
 
     Transaction(){
         this.total=0;
-        this.cart= new ArrayList<Item>();
+        this.cart= new ArrayList<>();
     }
 
     public Transaction(double total, List<Item> cart){
@@ -19,7 +19,7 @@ public class Transaction extends Parsable<Transaction>
         this.cart = cart;
     }
 
-    public Transaction(String[] fields){
+    Transaction(String[] fields){
         if(fields.length % 5 != 1) throw new IllegalArgumentException("Transaction requires String[] with length of 1 + 7n");
         List<Item> list = new ArrayList<>();
         for(int i = 1; i < fields.length; i += 7){
@@ -32,7 +32,8 @@ public class Transaction extends Parsable<Transaction>
 
     void addItem(Item item) {
         this.cart.add(item);
-        this.total+=item.price*item.discount;
+        this.total+=BusinessLogic.computeTax(item.price-(item.price*item.discount));
+        item.quantity--;
     }
 
     List<Item> getCart(){

@@ -8,15 +8,15 @@ class BankInterface {
     query these accounts for cardNo, cardType(debit(they're all debit)/credit), PIN, and AuthorizationNo
     Someone will need to fill the AccountList.csv
     */
+    private static Scanner input;
 
 
 
-
-    static Account GetCardDNo(){
+    static Account GetCardDNo(Scanner in){
            accounts=DatabaseInterface.getDatabase().getAccountList();
         String  cardNo, PIN;
         int i;
-        Scanner input = new Scanner(System.in);
+        input = in;
         System.out.println("Enter Card Number (enter -1 to cancel payment):");
         cardNo = input.nextLine();
 
@@ -48,18 +48,17 @@ class BankInterface {
 
         System.out.println("Card not recognized");
  
-        input.close();
         return null;
     }
      
-    static Account GetCardCNo(){
+    static Account GetCardCNo(Scanner in){
         String  cardNo;
         accounts=DatabaseInterface.getDatabase().getAccountList();
         int i;
-        Scanner input = new Scanner(System.in);
+        input =in;
         System.out.println("Enter Card Number (enter -1 to cancel payment):");
         cardNo = input.nextLine();
-        input.close();
+
 
         if(cardNo.equals("-1"))
             return null;
@@ -72,10 +71,8 @@ class BankInterface {
             if( cardNo.equals(accounts.get(i).getCardNo()))
             {
                 String zipcode;
-                Scanner in = new Scanner(System.in);
                 System.out.println("Please Enter Zip Code");
-                zipcode = in.nextLine();
-                in.close();
+                zipcode = input.nextLine();
                  
                 System.out.println("Card Accepted");
                 accounts.get(i).setAuthNo(getAuthNo());
@@ -94,12 +91,10 @@ class BankInterface {
          return null;
     }
 
-    static String getAuthNo(){
-        Scanner in=new Scanner(System.in);
+    private static String getAuthNo(){
+
         System.out.print("Authorization Center says:\n Enter Authorization number: ");
-        String auth=in.nextLine();
-        in.close();
-        return auth;
+        return input.nextLine();
     }
 }
 

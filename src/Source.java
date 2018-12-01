@@ -12,20 +12,25 @@ public class Source
         Executors.newScheduledThreadPool(1);
     public static void main(String[] args)
     {
-        try{
-            startTimer();//first thing we do is start the timer actor
-            Scanner in=new Scanner(System.in);
-            System.out.println("Boot message:\nEnter 1 for Employee Interface, otherwise Customer Interface will start.");
-            String who=in.nextLine();
+        startTimer();//first thing we do is start the timer actor
+        try (Scanner in = new Scanner(System.in)) {
+            while(true)
+            {
+                System.out.println("Boot message:\nEnter 1 for Employee Interface, otherwise Customer Interface will start.");
+                String who = in.nextLine();
 
-            if(who.toUpperCase().startsWith("1"))
-                EmployeeInterface.welcome();
-            else
-                CustomerInterface.welcome();
-        }catch (Exception e){
+                if (who.toUpperCase().startsWith("1"))
+                    EmployeeInterface.welcome(in);
+                else if(who.toUpperCase().startsWith("-"))
+                    break;
+                else
+                    CustomerInterface.welcome(in);
+                System.out.println("Welcome back to bios.");
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
     private static void startTimer(){

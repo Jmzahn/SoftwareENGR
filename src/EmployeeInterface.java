@@ -2,55 +2,56 @@
 import java.util.List;
 import java.util.Scanner;
 
-public class EmployeeInterface//I added a static Database to DatabaseInterface that you can pull via get method, and push via set
+class EmployeeInterface//I added a static Database to DatabaseInterface that you can pull via get method, and push via set
 {
-    public static void welcome(){
-        Scanner sel=new Scanner(System.in);
+    private static Scanner input;
+    static void welcome(Scanner in){
+        input=in;
         System.out.print("Welcome to the Employee Interface!\nSelect 1 if you are a restocker, or 2 if you are a manager : ");
-        int wut=sel.nextInt();
+        int wut=input.nextInt();
+        input.nextLine();
         if(wut==1)
             restockItem();
         else if(wut==2)
             updateItem();
         System.out.println("Leaving Employee Interface!");
-        sel.close();
+        
     }
     //Database database = DatabaseInterface.getDatabase();
     private static void updateItem(){
-        Scanner kb = new Scanner(System.in);
         Database database = DatabaseInterface.getDatabase();
         boolean cont=true;
         while(cont)
         {
             System.out.println("Enter the name of the item:");
-            String itemName = kb.nextLine();
+            String itemName = input.nextLine();
             Item item = getItem(itemName, database);
             if(item == null)
             {
                 System.out.println("Item not found. Create new item:");
 
                 System.out.println("Enter the item description:");
-                String description = kb.nextLine();
+                String description = input.nextLine();
 
                 System.out.println("Enter the item price:");
-                double price = kb.nextDouble();
-                kb.nextLine();
+                double price = input.nextDouble();
+                input.nextLine();
 
                 System.out.println("Enter the item discount (as a number from 0 to 1, e.g. 10% = 0.10):");
-                double discount = kb.nextDouble();
-                kb.nextLine();
+                double discount = input.nextDouble();
+                input.nextLine();
 
                 System.out.println("Enter the item inventory quantity:");
-                int quantity = kb.nextInt();
-                kb.nextLine();
+                int quantity = input.nextInt();
+                input.nextLine();
 
                 System.out.println("Enter whether or not the item is alcohol (true/false)");
-                String isAlchStr = kb.nextLine();
+                String isAlchStr = input.nextLine();
                 boolean isBooze = Boolean.parseBoolean(isAlchStr);
 
                 System.out.println("Enter the item inventory minimum:");
-                int invMininum = kb.nextInt();
-                kb.nextLine();
+                int invMininum = input.nextInt();
+                input.nextLine();
 
                 item = new Item();
                 item.name = itemName;
@@ -69,7 +70,7 @@ public class EmployeeInterface//I added a static Database to DatabaseInterface t
                 System.out.println("Current item status: " + item.toString());
 
                 System.out.println("Would you like to delete the item? (y/n):");
-                if(kb.nextLine().toUpperCase().startsWith("Y")){
+                if(input.nextLine().toUpperCase().startsWith("Y")){
                     List<Item> list = database.getInventoryList();
                     list.remove(item);
                     break;
@@ -78,30 +79,30 @@ public class EmployeeInterface//I added a static Database to DatabaseInterface t
 
                 System.out.println("(Press Enter to leave unchanged)");
 
-                String description = kb.nextLine();
+                String description = input.nextLine();
                 if(description != null){
                     item.description = description;
                 }
 
                 System.out.println("Enter the item price:");
-                double price = kb.nextDouble();
-                kb.nextLine();
+                double price = input.nextDouble();
+                input.nextLine();
 
                 System.out.println("Enter the item discount (as a number from 0 to 1, e.g. 10% = 0.10):");
-                double discount = kb.nextDouble();
-                kb.nextLine();
+                double discount = input.nextDouble();
+                input.nextLine();
 
                 System.out.println("Enter the item inventory quantity:");
-                int quantity = kb.nextInt();
-                kb.nextLine();
+                int quantity = input.nextInt();
+                input.nextLine();
 
                 System.out.println("Enter whether or not the item is alcohol (true/false)");
-                String isAlchStr = kb.nextLine();
+                String isAlchStr = input.nextLine();
                 boolean isBooze = Boolean.parseBoolean(isAlchStr);
 
                 System.out.println("Enter the item inventory minimum:");
-                int invMininum = kb.nextInt();
-                kb.nextLine();
+                int invMininum = input.nextInt();
+                input.nextLine();
 
                 item.price = price;
                 item.discount = discount;
@@ -112,21 +113,21 @@ public class EmployeeInterface//I added a static Database to DatabaseInterface t
                 updateInv(item, database);
             }
             System.out.print("Are you done? (y/n) : ");
-            if(kb.nextLine().toUpperCase().startsWith("Y")){
+            if(input.nextLine().toUpperCase().startsWith("Y")){
                 cont=false;
             }
         }
-        kb.close();
+
     }
 
     private static void restockItem(){
-        Scanner kb = new Scanner(System.in);
+
         Database database = DatabaseInterface.getDatabase();
         boolean cont=true;
         while(cont)
         {
             System.out.println("Enter the name of the item:");
-            String itemName = kb.nextLine();
+            String itemName = input.nextLine();
             Item item = getItem(itemName, database);
 
             if(item == null){
@@ -135,18 +136,18 @@ public class EmployeeInterface//I added a static Database to DatabaseInterface t
             }
 
             System.out.println("Enter the new quantity in inventory:");
-            int quantity = kb.nextInt();
-            kb.nextLine();
+            int quantity = input.nextInt();
+            input.nextLine();
 
             item.quantity = quantity;
             updateInv(item, database);
 
             System.out.print("Are you done? (y/n) : ");
-            if(kb.nextLine().toUpperCase().startsWith("Y")){
+            if(input.nextLine().toUpperCase().startsWith("Y")){
                 cont=false;
             }
         }
-        kb.close();
+
     }
 
     private static Item getItem(String itemName, Database database){

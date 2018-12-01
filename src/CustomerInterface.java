@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class CustomerInterface////I added a static Database to DatabaseInterface that you can pull via get method, and push via set
+class CustomerInterface////I added a static Database to DatabaseInterface that you can pull via get method, and push via set
 {
     //Im guessing this will be implemented by interaction with the console,
     // as will all IO i.e. Bank Interface, Employee Interface -JZ
@@ -15,31 +15,47 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
 
     private static Transaction transaction;
     private static double subTotal,total;
-
-    static void welcome(){
+    private static Scanner input;
+    static void welcome(Scanner in){
+        input=in;
         while(true)
         {
-            System.out.println("Welcome to checkout");
-            Scanner input = new Scanner(System.in);
-            System.out.println("Press Enter to start");     // Initiates the system
-            String cardNo = input.nextLine();
-            startCheckout();
-            scan();         // Calls the scan function
-            input.close();
+            
+            try {
+                System.out.println("Welcome to checkout");
+
+                System.out.println("Press y to start");
+
+                String cardNo=input.nextLine();
+                if (cardNo.toUpperCase().startsWith("Y"))
+                {
+                    startCheckout();
+                    scan();
+                }
+                else
+                    break;
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+                break;
+            }
+            
         }
+
 
     }
 
-    static void startCheckout(){
+    private static void startCheckout(){
         database=DatabaseInterface.getDatabase();
         transaction=new Transaction();
         subTotal=transaction.getTotal();//sets to default==0.0
     }
-    static void scan(){//use Transaction.add(Item i) to add these items to transaction, make sure to update subtotal
+    private static void scan(){//use Transaction.add(Item i) to add these items to transaction, make sure to update subtotal
         // System.out.println("Please scan items");
 
         List< Item > items = database.getInventoryList();
-        Scanner input=new Scanner(System.in);
+        
         int count = 1;
 
         while(count != 0){
@@ -47,11 +63,11 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             System.out.println("Enter 1 to scan item");
             System.out.println("Enter 2 to check the sub-total");
             System.out.println("Enter 3 to finalize the transaction");
-            System.out.print("Enter 4 to cancel the transaction");
+            System.out.print("Enter 4 to cancel the transaction: ");
             
-            int select = input.nextInt();
-            input.nextLine();
-            if(select == 1){
+            String select = input.nextLine();
+
+            if(Integer.parseInt(select)==1){
                 System.out.println("Please enter name of item: ");
                 String itemName = input.nextLine();
                 for(int i =0; i < items.size(); i++){
@@ -65,7 +81,6 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                             if(booz.equals("1")){
                                 transaction.addItem(items.get(i));
                                 subTotal += items.get(i).price*(1-items.get(i).discount);
-                                System.out.println(items.get(i));
                                 System.out.println(items.get(i).description);
                                 System.out.println(items.get(i).price);
 
@@ -82,19 +97,20 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
                             System.out.println(items.get(i).price);
                         }
                     }
+
                 }
             }
-            else if(select == 2){
+            else if(Integer.parseInt(select)== 2){
                 displaySubTotal();
             }
-            else if(select == 3){
+            else if(Integer.parseInt(select)== 3){
                 displayTotal();
                 selectPayment();
-                input.close();
-                input=new Scanner(System.in);
+
+                count=0;
             }
-            else if(select == 4){
-                cancel(0);
+            else if(Integer.parseInt(select)== 4){
+                cancel(1);
                 count = 0;
             }
             else{
@@ -102,7 +118,6 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             }
 
         }
-        input.close();
 
     }
 
@@ -110,7 +125,7 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
     private static void displaySubTotal(){
         System.out.println(subTotal);
     }
-    static void displayTotal(){
+    private static void displayTotal(){
         total=BusinessLogic.computeTax(subTotal);
         if(total % .01 != 0){
             total = total - (total % .01) + .01;
@@ -119,9 +134,9 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
     }
     private static void selectPayment()
     {
-        Scanner selectpay = new Scanner(System.in);
+        
         Account account;
-        int selector;
+        String selector;
         
         try{
             // Payment type selection menu
@@ -131,30 +146,42 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             System.out.println("Press 3 for Debit");
             System.out.println("Press 4 to cancel transaction");
             System.out.print("Please select payment type:");
-            selector = selectpay.nextInt();
-            selectpay.nextLine();
+            selector = input.nextLine();
+
         
-            if(selector == 0){
+            if(Integer.parseInt(selector)== 0){
                 cancel(0);
             }
-            else if(selector == 1){
+            else if(Integer.parseInt(selector)== 1){
                 payCash();
             }
-            else if(selector == 2 ){
-                account=BankInterface.GetCardCNo();      // Calls bank interface to approve payment ( Credit )
+            else if(Integer.parseInt(selector)== 2 ){
+                account=BankInterface.GetCardCNo(input);      // Calls bank interface to approve payment ( Credit )
                 if(account==null)
+                {
                     cancel(0);
-                BusinessLogic.prepareReceipt(transaction,account);
+                    return;
+                }
 
+                BusinessLogic.prepareReceipt(transaction,account);
+                System.out.println();
+                BusinessLogic.prepareReceipt(transaction,account);
+                database.getTransactionLogList().add(transaction);
             }
-            else if(selector == 3){
-                account=BankInterface.GetCardDNo();      // Calls bank interface to approve payment ( Debit )
+            else if(Integer.parseInt(selector)== 3){
+                account=BankInterface.GetCardDNo(input);      // Calls bank interface to approve payment ( Debit )
                 if(account==null)
+                {
                     cancel(0);
-                BusinessLogic.prepareReceipt(transaction,account);
+                    return;
+                }
 
+                BusinessLogic.prepareReceipt(transaction,account);
+                System.out.println();
+                BusinessLogic.prepareReceipt(transaction,account);
+                database.getTransactionLogList().add(transaction);
             }
-            else if(selector == 4){
+            else if(Integer.parseInt(selector)== 4){
                 cancel(1);
 
             }
@@ -166,18 +193,18 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             e.printStackTrace();
         //    System.err.println("Must give valid input ");
         }
-        selectpay.close();
+        
     }
 
     private static void payCash()
     {
-        double insertedCash=0.0;//since we just got here they haven't put cash in yet
+        double insertedCash;//since we just got here they haven't put cash in yet
+        String cash;
 
-        Scanner cashIn=new Scanner(System.in);
         System.out.println("Insert cash into bill or coin readers (double)\n (enter -1 to cancel payment) : ");//prompt for cash
-        insertedCash = cashIn.nextDouble();
-        cashIn.nextLine();
-        cashIn.close();
+        cash = input.nextLine();
+        insertedCash=Double.parseDouble(cash);
+
         
         insertedCash = (double) ((int) (insertedCash * 100)) / 100;
         if(insertedCash==-1)
@@ -191,13 +218,18 @@ public class CustomerInterface////I added a static Database to DatabaseInterface
             {
                 System.out.println("Dispensing Change...  "+dif+"\nTransaction complete!\nPrinting receipt.");
                 BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
+                System.out.println();
+                BusinessLogic.prepareReceipt(transaction,null);
             }
             else//otherwise just print the receipt
             {
                 System.out.println("\nTransaction complete!\nPrinting receipt.");
                 BusinessLogic.prepareReceipt(transaction,null);//get receipt with null account
+                System.out.println();
+                BusinessLogic.prepareReceipt(transaction,null);
             }
-        }//not sure where to go from here, im guessing welcome page for next customer
+            database.getTransactionLogList().add(transaction);
+        }
 
     }
     private static void cancel(int t)//t==0 for cancel payment, t==1 for cancel order
