@@ -79,11 +79,16 @@ class CustomerInterface////I added a static Database to DatabaseInterface that y
                             System.out.println("Enter alcohol confirmation code: 1 = confirm, 2 = decline");
                             booz = input.nextLine();
                             if(booz.equals("1")){
-                                transaction.addItem(items.get(i));
-                                subTotal += items.get(i).price*(1-items.get(i).discount);
-                                System.out.println(items.get(i).description);
-                                System.out.println(items.get(i).price);
+                                try {
 
+                                    transaction.addItem(items.get(i));
+                                    subTotal += items.get(i).price*(1-items.get(i).discount);
+                                    System.out.println(items.get(i).description);
+                                    System.out.println(items.get(i).price);
+                                }
+                                catch (NullPointerException e){
+                                    //lol
+                                }
                             }
                             else{
                                 cancel(1);      // Cops are on the way, you're underage
